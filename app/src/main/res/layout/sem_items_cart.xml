@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sem itens no carrinho"
+        android:textSize="30sp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewSubTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Tente adicionar alguns itens"
+        app:layout_constraintEnd_toEndOf="@id/textViewTitulo"
+        app:layout_constraintStart_toStartOf="@id/textViewTitulo"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
+        tools:layout_editor_absoluteX="42dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonVoltar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewSubTitulo"
+        app:layout_constraintStart_toStartOf="@+id/textViewSubTitulo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSubTitulo">
+
+    </com.google.android.material.button.MaterialButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

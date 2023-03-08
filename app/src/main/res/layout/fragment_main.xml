@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/legumesMaterialCardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/limpezaMaterialCardView"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/legumesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="Hortifruti"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/legumesImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/legumesTextView"
+                android:contentDescription="Legumes"
+                android:src="@drawable/ic_legumes" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/outrasComprasMaterialCardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="@id/limpezaMaterialCardView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/acougueMaterialCardView"
+        app:layout_constraintTop_toBottomOf="@id/limpezaMaterialCardView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/outrasComprasTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="Outros"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/outrasComprasImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/outrasComprasTextView"
+                android:contentDescription="Outros"
+                android:src="@drawable/ic_compras" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/acougueMaterialCardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="@+id/legumesMaterialCardView"
+        app:layout_constraintTop_toBottomOf="@+id/legumesMaterialCardView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/acougueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="Açougue"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/acougueImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/acougueTextView"
+                android:contentDescription="Legumes"
+                android:src="@drawable/ic_acougue" />
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/limpezaMaterialCardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="148dp"
+        app:layout_constraintStart_toEndOf="@+id/legumesMaterialCardView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/limpezaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="Limpeza"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/limpezaImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/limpezaTextView"
+                android:contentDescription="Limpeza"
+                android:src="@drawable/ic_limpeza" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
