@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="br.com.example.listadecompras.ui.main.MainFragment"
+        android:name="br.com.lotaviods.listadecompras.ui.main.MainFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_main">
 
@@ -29,14 +29,14 @@
 
             <argument
                 android:name="produto"
-                app:argType="br.com.example.listadecompras.model.item.Item"/>
+                app:argType="br.com.lotaviods.listadecompras.model.item.Item"/>
         </action>
 
     </fragment>
 
     <fragment
         android:id="@+id/CategoriasFragment"
-        android:name="br.com.example.listadecompras.ui.categorias.CategoriasFragment"
+        android:name="br.com.lotaviods.listadecompras.ui.categorias.CategoriasFragment"
         tools:layout="@layout/fragment_categorias">
 
         <argument
@@ -60,13 +60,13 @@
 
             <argument
                 android:name="produto"
-                app:argType="br.com.example.listadecompras.model.item.Item"/>
+                app:argType="br.com.lotaviods.listadecompras.model.item.Item"/>
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/FormularioFragment"
-        android:name="br.com.example.listadecompras.ui.formulario.FormularioFragment"
+        android:name="br.com.lotaviods.listadecompras.ui.formulario.FormularioFragment"
         tools:layout="@layout/fragment_formulario">
 
         <argument
@@ -76,7 +76,7 @@
 
         <argument
             android:name="produto"
-            app:argType="br.com.example.listadecompras.model.item.Item"
+            app:argType="br.com.lotaviods.listadecompras.model.item.Item"
             app:nullable="true"/>
     </fragment>
 </navigation>
