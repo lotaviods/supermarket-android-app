@@ -2,6 +2,7 @@ package br.com.lotaviods.listadecompras.data.item
 
 import androidx.room.*
 import br.com.lotaviods.listadecompras.model.item.Item
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ItemDao {
@@ -10,6 +11,9 @@ interface ItemDao {
 
     @Query("SELECT * FROM item ORDER BY name")
     fun getAll(): MutableList<Item>
+
+    @Query("SELECT * FROM item ORDER BY name")
+    fun getAllFlow(): Flow<MutableList<Item>>
 
     @Query("SELECT * FROM item WHERE name LIKE :nome")
     fun getByName(nome: String): Item

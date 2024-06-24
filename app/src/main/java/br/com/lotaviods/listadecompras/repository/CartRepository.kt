@@ -6,7 +6,7 @@ import androidx.core.content.edit
 class CartRepository(context: Context) {
     private val preferences = context.getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE)
 
-    fun salvaNomeLista(nome: String){
+    fun salvaNomeLista(nome: String) {
         preferences.edit {
             putString(KEY_NOME_LISTA, nome)
         }
@@ -17,7 +17,7 @@ class CartRepository(context: Context) {
     }
 
     companion object {
-        private const val KEY_PREFERENCES = "cart"
-        private const val KEY_NOME_LISTA = "cart"
+        const val KEY_PREFERENCES = "cart"
+        const val KEY_NOME_LISTA = "cart"
     }
 }

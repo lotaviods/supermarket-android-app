@@ -4,6 +4,7 @@ import androidx.room.Room
 import br.com.lotaviods.listadecompras.data.database.AppDatabase
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
+import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -23,6 +24,9 @@ class Application : android.app.Application() {
         }
         single {
             CartRepository(applicationContext)
+        }
+        single {
+            ShoppingWidgetRepository(applicationContext, database.itemDAO())
         }
     }
 
