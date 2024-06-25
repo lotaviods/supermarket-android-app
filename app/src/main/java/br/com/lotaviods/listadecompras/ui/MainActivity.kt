@@ -3,6 +3,7 @@ package br.com.lotaviods.listadecompras.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -48,21 +49,22 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
 
         navController = navHostFragment.navController
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -96,10 +98,7 @@ class MainActivity : AppCompatActivity() {
 
                     cartIntentLauncher.launch(intent)
                 }
-
             }
-
-
         }
     }
 }

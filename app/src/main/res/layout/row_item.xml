@@ -67,7 +67,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            app:tint="@color/design_default_color_on_secondary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

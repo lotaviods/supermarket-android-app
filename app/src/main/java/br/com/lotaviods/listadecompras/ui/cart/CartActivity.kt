@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,7 @@ class CartActivity : AppCompatActivity() {
                     }
                 }
             }
+
             is ItensAdapter.Acao.Editar -> {
                 try {
                     val data = Intent()
@@ -63,9 +65,7 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         title = getString(R.string.cart_activity_title)
 
-        setSupportActionBar(binding.toolbar)
         setContentView(binding.root)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         inicializaItens()
@@ -118,8 +118,8 @@ class CartActivity : AppCompatActivity() {
             itens?.forEach {
                 val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull()
                 if (valorUnit != null) {
-                     it.qnt?.let { qntd ->
-                         valorTotal += (qntd * valorUnit)
+                    it.qnt?.let { qntd ->
+                        valorTotal += (qntd * valorUnit)
                     }
                 }
             }

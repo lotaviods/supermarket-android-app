@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
     android:clipToPadding="false"
     android:paddingBottom="55dp"
     tools:layout_height="match_parent">
@@ -28,7 +27,6 @@
             android:id="@+id/item_descricao_editText"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
             android:hint="Digite o nome do produto"
             android:layout_marginTop="4dp"
             android:inputType="text"
@@ -47,7 +45,6 @@
             android:id="@+id/item_preco_editText"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
             android:hint="Digite o preço do produto"
             android:layout_marginTop="4dp"
             android:inputType="numberDecimal"
@@ -67,7 +64,6 @@
             android:id="@+id/item_quantidade_numPicker"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
             android:layout_marginTop="4dp" />
 
         <TextView

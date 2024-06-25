@@ -68,9 +68,9 @@
                 android:id="@+id/outrasComprasImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
                 android:layout_below="@+id/outrasComprasTextView"
                 android:contentDescription="Outros"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_compras" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -109,7 +109,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/limpezaMaterialCardView"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -141,6 +141,17 @@
                 android:contentDescription="Limpeza"
                 android:src="@drawable/ic_limpeza" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addWidgetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="Adicionar widget"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acougueMaterialCardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,12 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Listadecompras"
-        tools:targetApi="31"
-        android:windowSoftInputMode="stateHidden|adjustPan">
+        android:windowSoftInputMode="stateHidden|adjustPan"
+        tools:targetApi="31">
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Listadecompras.NoActionBar">
+            android:theme="@style/Theme.Listadecompras">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +34,8 @@
             android:exported="true" />
 
 
-        <receiver android:name=".widget.ShoppingListWidgetReceiver"
+        <receiver
+            android:name=".widget.ShoppingListWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -43,6 +44,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/shopping_widget_info" />
         </receiver>
+
+        <receiver
+            android:name=".broadcast.PinWidgetReceiver"
+            android:exported="false" />
 
 
     </application>

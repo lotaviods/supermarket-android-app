@@ -35,6 +35,7 @@ class FormularioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.itemQuantidadeNumPicker.apply {
             minValue = 1
             maxValue = 99

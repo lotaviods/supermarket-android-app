@@ -25,6 +25,7 @@ class CategoriasFragment : Fragment() {
 
     //todo: criar viewModel
     private val repository by inject<ItemRepository>()
+
     private val mAdapter = ItensAdapter {
         when (it) {
             is ItensAdapter.Acao.Editar -> {
