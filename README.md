@@ -23,5 +23,10 @@ A modern Android app for managing your shopping list, built with Kotlin, Materia
 - The app supports both light and dark mode. Dark mode uses a true black background for OLED screens.
 - You can adjust colors in `app/src/main/res/values/colors.xml` and `values-night/colors.xml`.
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 ---
+
 Feel free to contribute or open issues for suggestions and bug reports! 
