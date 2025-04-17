@@ -50,8 +50,19 @@ class ItensAdapter(val onItemClick: (acao: Acao) -> Unit = {}) :
     class ItensVH(private val view: RowItemBinding) : ViewHolder(view.root) {
         fun bind(item: Item, onItemClick: (acao: Acao) -> Unit) {
             view.textDescricaoItem.text = item.nome
-            view.txtQnt.text = item.qnt.toString()
-            view.precoItem.text = PrecoHelper.formataPreco(item.valor)
+            val unidade = item.unidade?.takeIf { !it.isNullOrBlank() && it != "nenhum" } ?: "unidade"
+            view.txtQnt.text = if (item.qnt != null) "${item.qnt} $unidade" else unidade
+
+            // Compute subtotal for this item
+            val valorUnit = item.valor?.replace(',', '.')?.toDoubleOrNull() ?: 0.0
+            val qntd = item.qnt ?: 0
+            val subtotal = when (unidade.lowercase()) {
+                "gramas", "ml" -> (qntd / 1000.0) * valorUnit
+                "kg", "litros" -> qntd * valorUnit
+                else -> qntd * valorUnit // unidade, nenhum, or unknown
+            }
+            val numberFormat = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("pt", "BR"))
+            view.precoItem.text = numberFormat.format(subtotal)
 
             view.layout.setOnClickListener {
                 onItemClick(Acao.Editar(item))

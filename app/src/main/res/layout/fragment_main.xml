@@ -1,157 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/legumesMaterialCardView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="36dp"
-        app:layout_constraintBottom_toBottomOf="@+id/limpezaMaterialCardView"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/legumesTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text="Hortifruti"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/legumesImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/legumesTextView"
-                android:contentDescription="Legumes"
-                android:src="@drawable/ic_legumes" />
-        </RelativeLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/outrasComprasMaterialCardView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="@id/limpezaMaterialCardView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/acougueMaterialCardView"
-        app:layout_constraintTop_toBottomOf="@id/limpezaMaterialCardView">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/outrasComprasTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text="Outros"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/outrasComprasImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/outrasComprasTextView"
-                android:contentDescription="Outros"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_compras" />
-        </RelativeLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/acougueMaterialCardView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="@+id/legumesMaterialCardView"
-        app:layout_constraintTop_toBottomOf="@+id/legumesMaterialCardView">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/acougueTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text="Açougue"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/acougueImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/acougueTextView"
-                android:contentDescription="Legumes"
-                android:src="@drawable/ic_acougue" />
-        </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/limpezaMaterialCardView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="148dp"
-        app:layout_constraintStart_toEndOf="@+id/legumesMaterialCardView"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/limpezaTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text="Limpeza"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/limpezaImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/limpezaTextView"
-                android:contentDescription="Limpeza"
-                android:src="@drawable/ic_limpeza" />
-        </RelativeLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addWidgetButton"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:text="Adicionar widget"
-        style="@style/Widget.Material3.Button.ElevatedButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acougueMaterialCardView" />
+        android:paddingBottom="20dp"
+        android:clipToPadding="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Hortifruti Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/legumesMaterialCardView"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:minHeight="180dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/legumesImageView"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="Hortifruti"
+                    android:src="@drawable/ic_legumes"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/legumesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Hortifruti"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/legumesImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Limpeza Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/limpezaMaterialCardView"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:minHeight="180dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:layout_constraintStart_toEndOf="@+id/legumesMaterialCardView"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/limpezaImageView"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="Limpeza"
+                    android:src="@drawable/ic_limpeza"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/limpezaTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Limpeza"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/limpezaImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Açougue Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/acougueMaterialCardView"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:minHeight="180dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/legumesMaterialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/legumesMaterialCardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/acougueImageView"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="Açougue"
+                    android:src="@drawable/ic_acougue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/acougueTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Açougue"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/acougueImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Outras Compras Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/outrasComprasMaterialCardView"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:minHeight="180dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:layout_constraintStart_toEndOf="@+id/acougueMaterialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/limpezaMaterialCardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/outrasComprasImageView"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:contentDescription="Outros"
+                    android:src="@drawable/ic_compras"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/outrasComprasTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Outros"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/outrasComprasImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Add Widget Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addWidgetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="Adicionar widget"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            app:cornerRadius="16dp"
+            app:iconPadding="12dp"
+            app:iconTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/acougueMaterialCardView"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

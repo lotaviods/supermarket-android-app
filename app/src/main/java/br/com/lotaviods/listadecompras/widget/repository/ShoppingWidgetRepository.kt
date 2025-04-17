@@ -6,6 +6,7 @@ import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.widget.model.WidgetState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -24,7 +25,8 @@ class ShoppingWidgetRepository(
                     listName()
                 )
             else WidgetState.Empty
-        }.distinctUntilChanged()
+        }.catch { emit(WidgetState.Empty) }
+         .distinctUntilChanged()
     }
 
     private fun listName(): String {

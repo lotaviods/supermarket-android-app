@@ -12,14 +12,16 @@ data class Item(
     @ColumnInfo(name = "name") val nome: String? = "",
     @ColumnInfo(name = "value") val valor: String? = "",
     @ColumnInfo(name = "category") val category: Int? = 0,
-    @ColumnInfo(name = "qnt") val qnt: Int? = 0
+    @ColumnInfo(name = "qnt") val qnt: Int? = 0,
+    @ColumnInfo(name = "unidade") val unidade: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Int::class.java.classLoader) as? Int
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString()
     ) {
     }
 
@@ -29,6 +31,7 @@ data class Item(
         parcel.writeString(valor)
         parcel.writeValue(category)
         parcel.writeValue(qnt)
+        parcel.writeString(unidade)
     }
 
     override fun describeContents(): Int {

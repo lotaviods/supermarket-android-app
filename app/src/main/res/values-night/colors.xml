@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="md_theme_light_primary">#6750A4</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#222222</color>
+    <color name="md_theme_light_onPrimaryContainer">#EADDFF</color>
+    <color name="md_theme_light_secondary">#625B71</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#333333</color>
+    <color name="md_theme_light_onSecondaryContainer">#E8DEF8</color>
+    <color name="md_theme_light_background">#000000</color>
+    <color name="md_theme_light_onBackground">#FFFFFF</color>
+    <color name="md_theme_light_surface">#111111</color>
+    <color name="md_theme_light_onSurface">#FFFFFF</color>
+    <color name="md_theme_light_error">#CF6679</color>
+    <color name="md_theme_light_onError">#000000</color>
+    <color name="md_theme_light_outline">#79747E</color>
+    <color name="md_theme_light_surfaceVariant">#222222</color>
+    <color name="md_theme_light_onSurfaceVariant">#E7E0EC</color>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources> 

@@ -9,6 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
+import androidx.core.view.WindowInsetsControllerCompat
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityCartBinding
@@ -62,11 +67,20 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
         binding = ActivityCartBinding.inflate(layoutInflater)
         title = getString(R.string.cart_activity_title)
 
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(top = systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
 
         inicializaItens()
         configuraRecyclerView()
@@ -116,11 +130,13 @@ class CartActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Default).launch {
             var valorTotal = 0.0
             itens?.forEach {
-                val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull()
-                if (valorUnit != null) {
-                    it.qnt?.let { qntd ->
-                        valorTotal += (qntd * valorUnit)
-                    }
+                val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull() ?: 0.0
+                val unidade = it.unidade?.lowercase() ?: "unidade"
+                val qntd = it.qnt ?: 0
+                valorTotal += when (unidade) {
+                    "gramas", "ml" -> (qntd / 1000.0) * valorUnit
+                    "kg", "litros" -> qntd * valorUnit
+                    else -> qntd * valorUnit // unidade, nenhum, or unknown
                 }
             }
             withContext(Dispatchers.Main) {

@@ -120,14 +120,24 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                         }
 
                         is WidgetState.Empty -> {
-                            Text(
-                                text = "Sem itens no carrinho",
-                                style = TextStyle(
-                                    fontStyle = FontStyle.Italic,
-                                    color = GlanceTheme.colors.onSurface
-                                ),
-                                modifier = GlanceModifier.padding(16.dp)
-                            )
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "Sem itens no carrinho",
+                                    style = TextStyle(
+                                        fontStyle = FontStyle.Italic,
+                                        color = GlanceTheme.colors.onSurface
+                                    ),
+                                    modifier = GlanceModifier.padding(16.dp)
+                                )
+                                Image(
+                                    provider = ImageProvider(R.drawable.baseline_refresh_24),
+                                    modifier = GlanceModifier
+                                        .padding(8.dp)
+                                        .clickable { actionRunCallback<ReloadAction>() },
+                                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface),
+                                    contentDescription = "Atualizar"
+                                )
+                            }
                         }
 
                         is WidgetState.Loading -> {
@@ -146,7 +156,16 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
 @Composable
 private fun TotalSummary(items: List<Item>) {
     val totalValue = items.sumOf {
-        (it.qnt ?: 0) * (it.valor?.toDoubleOrNull() ?: 0.0)
+        val unidade = it.unidade?.trim()?.lowercase() ?: "unidade"
+        val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull()
+        val qntd = it.qnt ?: 0
+        if (valorUnit != null && qntd > 0) {
+            when (unidade) {
+                "gramas", "ml" -> (qntd / 1000.0) * valorUnit
+                "kg", "litros" -> qntd * valorUnit
+                else -> qntd * valorUnit // unidade, nenhum, or unknown
+            }
+        } else 0.0
     }
 
     Column {
@@ -172,6 +191,17 @@ private fun TotalSummary(items: List<Item>) {
 
 @Composable
 private fun ShoppingCartItemRow(item: Item) {
+    val unidade = item.unidade?.trim()?.lowercase() ?: "unidade"
+    val valorUnit = item.valor?.replace(',', '.')?.toDoubleOrNull()
+    val qntd = item.qnt ?: 0
+    val subtotal = if (valorUnit != null && qntd > 0) {
+        when (unidade) {
+            "gramas", "ml" -> (qntd / 1000.0) * valorUnit
+            "kg", "litros" -> qntd * valorUnit
+            else -> qntd * valorUnit // unidade, nenhum, or unknown
+        }
+    } else null
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = GlanceModifier.padding(horizontal = 8.dp).fillMaxWidth(),
@@ -181,7 +211,7 @@ private fun ShoppingCartItemRow(item: Item) {
             modifier = GlanceModifier.padding(8.dp).defaultWeight()
         ) {
             Text(
-                text = "${item.qnt} - ${item.nome}",
+                text = "${item.qnt} $unidade - ${item.nome}",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = GlanceTheme.colors.onSurface
@@ -189,7 +219,7 @@ private fun ShoppingCartItemRow(item: Item) {
             )
             item.valor?.let {
                 Text(
-                    text = "R$%.2f".format(it.toDoubleOrNull() ?: 0.0),
+                    text = "Preço: " + (valorUnit?.let { v -> "R$ %.2f".format(v) } ?: "N/A"),
                     style = TextStyle(
                         fontWeight = FontWeight.Normal,
                         color = GlanceTheme.colors.onSurface
@@ -208,7 +238,7 @@ private fun ShoppingCartItemRow(item: Item) {
         )
 
         Text(
-            text = "R$ %.2f".format((item.qnt ?: 0) * (item.valor?.toDoubleOrNull() ?: 0.0)),
+            text = "Subtotal: " + (subtotal?.let { "R$ %.2f".format(it) } ?: "N/A"),
             style = TextStyle(
                 color = GlanceTheme.colors.onSurface
             ),
