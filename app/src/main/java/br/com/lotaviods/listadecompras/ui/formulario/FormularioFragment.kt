@@ -25,7 +25,7 @@ class FormularioFragment : Fragment() {
     private val repository: ItemRepository by inject()
     private val args: FormularioFragmentArgs by navArgs()
     private var quantidadeAtual = 1
-    private val quantidadeMin = 1
+    private val quantidadeMin = 0
     private val quantidadeMax = 9999
 
     override fun onCreateView(
@@ -136,14 +136,7 @@ class FormularioFragment : Fragment() {
 
     // --- Helper: Validate and format price input ---
     private fun validatePriceInput(preco: String?): Boolean {
-        val priceDouble = preco?.replace(',', '.')?.toDoubleOrNull() ?: 0.0
-        return if (preco.isNullOrBlank() || priceDouble <= 0.0) {
-            binding.itemPrecoEditText.error = "Digite um preço válido (> 0)"
-            false
-        } else {
-            binding.itemPrecoEditText.error = null
-            true
-        }
+        return true // Allow any price including empty or zero
     }
 
     // --- Helper: Update subtotal text ---
