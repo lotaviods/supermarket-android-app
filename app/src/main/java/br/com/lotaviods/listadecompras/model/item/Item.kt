@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import br.com.lotaviods.listadecompras.constantes.Constants
 
 @Entity
 data class Item(
@@ -13,7 +14,7 @@ data class Item(
     @ColumnInfo(name = "value") val valor: String? = "",
     @ColumnInfo(name = "category") val category: Int? = 0,
     @ColumnInfo(name = "qnt") val qnt: Int? = 0,
-    @ColumnInfo(name = "unidade") val unidade: String? = null,
+    @ColumnInfo(name = "unit_int", defaultValue = "${Constants.UNIT_PIECE}") val unidade: Int = Constants.UNIT_PIECE,
     @ColumnInfo(name = "list_id") val listId: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -22,7 +23,7 @@ data class Item(
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readString(),
+        parcel.readInt(),
         parcel.readInt()
     ) {
     }
@@ -33,7 +34,7 @@ data class Item(
         parcel.writeString(valor)
         parcel.writeValue(category)
         parcel.writeValue(qnt)
-        parcel.writeString(unidade)
+        parcel.writeInt(unidade)
         parcel.writeInt(listId)
     }
 

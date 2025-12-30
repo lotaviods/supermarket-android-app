@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.lotaviods.listadecompras.R
+import br.com.lotaviods.listadecompras.constantes.Constants
 import br.com.lotaviods.listadecompras.databinding.FragmentFormularioBinding
 import br.com.lotaviods.listadecompras.helper.PrecoHelper
 import br.com.lotaviods.listadecompras.model.item.Item
@@ -122,8 +123,13 @@ class FormularioFragment : Fragment() {
             args.produto?.valor?.let {
                 binding.itemPrecoEditText.setText(it)
             }
-            args.produto?.unidade?.let {
-                if (!it.isNullOrBlank()) binding.itemUnidadeAutoComplete.setText(it, false)
+            // Use PrecoHelper or local helper to map int unit to string
+            args.produto?.unidade?.let { unitInt ->
+                val displayUnit = PrecoHelper.getLocalizedUnit(requireContext(), unitInt)
+                if (displayUnit.isNotBlank()) {
+                    binding.itemUnidadeAutoComplete.setText(displayUnit, false)
+                    updatePrecoLabelAndHelper(displayUnit)
+                }
             }
             // Recalculate subtotal with the correct unit after prefill
             val preco = binding.itemPrecoEditText.text.toString()
@@ -132,12 +138,13 @@ class FormularioFragment : Fragment() {
     }
 
     private fun updatePrecoLabelAndHelper(unit: String) {
-        val (label, helper) = when (unit.lowercase()) {
-            getString(R.string.unit_kg).lowercase(), getString(R.string.unit_grams).lowercase() -> 
+        val unitConstant = getUnitConstant(unit)
+        val (label, helper) = when (unitConstant) {
+            Constants.UNIT_KG, Constants.UNIT_GRAMS ->
                 getString(R.string.item_price_per_kg) to getString(R.string.price_helper_kg)
-            getString(R.string.unit_liters).lowercase(), getString(R.string.unit_ml).lowercase() -> 
+            Constants.UNIT_LITERS, Constants.UNIT_ML ->
                 getString(R.string.item_price_per_liter) to getString(R.string.price_helper_liter)
-            getString(R.string.unit_piece).lowercase() -> 
+            Constants.UNIT_PIECE ->
                 getString(R.string.item_price_per_unit) to getString(R.string.price_helper_unit)
             else -> getString(R.string.item_price_label) to getString(R.string.price_helper_default)
         }
@@ -152,15 +159,11 @@ class FormularioFragment : Fragment() {
 
     // --- Helper: Update subtotal text ---
     fun alteraPrecoTextView(quantidade: Int, preco: String?) {
-        val unidade = binding.itemUnidadeAutoComplete.text.toString().lowercase()
-        val precoDouble = preco?.replace(',', '.')?.toDoubleOrNull() ?: 0.0
-        val subtotal = when (unidade) {
-            "gramas", "ml" -> (quantidade / 1000.0) * precoDouble
-            "kg", "litros" -> quantidade * precoDouble
-            else -> quantidade * precoDouble // unidade, nenhum, or unknown
-        }
+        val unit = binding.itemUnidadeAutoComplete.text.toString()
+        val unitConstant = getUnitConstant(unit)
+        val total = PrecoHelper.calcularValorTotal(quantidade, preco, unitConstant)
         val numberFormat = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("pt", "BR"))
-        binding.subTotalTextView.text = getString(R.string.total_spent, numberFormat.format(subtotal))
+        binding.subTotalTextView.text = getString(R.string.total_spent, numberFormat.format(total))
     }
 
     private fun salvar() {
@@ -173,7 +176,7 @@ class FormularioFragment : Fragment() {
     }
 
     private suspend fun criaItem() {
-        val unidadeSelecionada = binding.itemUnidadeAutoComplete.text.toString()
+        val unidadeSelecionada = getUnitConstant(binding.itemUnidadeAutoComplete.text.toString())
         if (args.produto != null) {
             repository.editaItem(
                 Item(
@@ -197,5 +200,17 @@ class FormularioFragment : Fragment() {
                 unidade = unidadeSelecionada
             )
         )
+    }
+
+    private fun getUnitConstant(displayedUnit: String): Int {
+        return when (displayedUnit.lowercase()) {
+            getString(R.string.unit_grams).lowercase() -> Constants.UNIT_GRAMS
+            getString(R.string.unit_kg).lowercase() -> Constants.UNIT_KG
+            getString(R.string.unit_ml).lowercase() -> Constants.UNIT_ML
+            getString(R.string.unit_liters).lowercase() -> Constants.UNIT_LITERS
+            getString(R.string.unit_piece).lowercase() -> Constants.UNIT_PIECE
+            getString(R.string.unit_none).lowercase() -> Constants.UNIT_NONE
+            else -> Constants.UNIT_PIECE
+        }
     }
 }

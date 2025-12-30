@@ -2,10 +2,8 @@ package br.com.lotaviods.listadecompras.ui.main
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.broadcast.PinWidgetReceiver
-import br.com.lotaviods.listadecompras.constantes.Constantes
+import br.com.lotaviods.listadecompras.constantes.Constants
 import br.com.lotaviods.listadecompras.databinding.FragmentMainBinding
 import br.com.lotaviods.listadecompras.widget.ShoppingListWidgetReceiver
 
@@ -80,28 +78,28 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.legumesMaterialCardView.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constantes.CATEGORIA_LEGUME
+                    Constants.CATEGORIA_LEGUME
                 )
             )
         }
         binding.limpezaMaterialCardView.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constantes.CATEGORIA_LIMPEZA
+                    Constants.CATEGORIA_LIMPEZA
                 )
             )
         }
         binding.acougueMaterialCardView.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constantes.CATEGORIA_ACOUGUE
+                    Constants.CATEGORIA_ACOUGUE
                 )
             )
         }
         binding.outrasComprasMaterialCardView.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constantes.CATEGORIA_OUTROS
+                    Constants.CATEGORIA_OUTROS
                 )
             )
         }

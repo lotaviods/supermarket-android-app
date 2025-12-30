@@ -33,6 +33,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import br.com.lotaviods.listadecompras.R
+import br.com.lotaviods.listadecompras.helper.PrecoHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
@@ -217,16 +218,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
     
     private fun calculateTotal(items: List<Item>): Double {
         return items.sumOf {
-            val unidade = it.unidade?.trim()?.lowercase() ?: "unidade"
-            val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull()
-            val qntd = it.qnt ?: 0
-            if (valorUnit != null && qntd > 0) {
-                when (unidade) {
-                    "gramas", "grams", "ml" -> (qntd / 1000.0) * valorUnit
-                    "kg", "litros", "liters" -> qntd * valorUnit
-                    else -> qntd * valorUnit
-                }
-            } else 0.0
+            PrecoHelper.calcularValorTotal(it.qnt ?: 0, it.valor, it.unidade)
         }
     }
 }

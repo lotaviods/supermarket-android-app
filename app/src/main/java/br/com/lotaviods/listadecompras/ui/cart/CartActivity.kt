@@ -1,6 +1,5 @@
 package br.com.lotaviods.listadecompras.ui.cart
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,13 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.core.view.WindowInsetsControllerCompat
 import br.com.lotaviods.listadecompras.R
-import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityCartBinding
 import br.com.lotaviods.listadecompras.helper.LanguageHelper
 import br.com.lotaviods.listadecompras.helper.PrecoHelper
@@ -146,14 +143,7 @@ class CartActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Default).launch {
             var valorTotal = 0.0
             itens?.forEach {
-                val valorUnit = it.valor?.replace(',', '.')?.toDoubleOrNull() ?: 0.0
-                val unidade = it.unidade?.lowercase() ?: "unidade"
-                val qntd = it.qnt ?: 0
-                valorTotal += when (unidade) {
-                    "gramas", "ml" -> (qntd / 1000.0) * valorUnit
-                    "kg", "litros" -> qntd * valorUnit
-                    else -> qntd * valorUnit // unidade, nenhum, or unknown
-                }
+                valorTotal += PrecoHelper.calcularValorTotal(it.qnt ?: 0, it.valor, it.unidade)
             }
             withContext(Dispatchers.Main) {
                 binding.subTotalCartTextView.text =
