@@ -10,6 +10,10 @@
         android:title="@string/language"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_theme"
+        android:title="@string/theme"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_support"
         android:title="@string/support_me"
         app:showAsAction="never" />

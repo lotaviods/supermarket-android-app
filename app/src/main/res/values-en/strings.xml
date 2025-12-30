@@ -3,7 +3,7 @@
     <string name="cart_activity_title">Shopping Cart</string>
     
     <!-- List management -->
-    <string name="default_list_name">Main List</string>
+    <string name="default_list_name">Grocery</string>
     <string name="manage_lists">Manage Lists</string>
     <string name="new_list_hint">New list name</string>
     <string name="create_list">Create List</string>
@@ -78,5 +78,13 @@
     <string name="select_language">Select Language</string>
     <string name="portuguese">Portuguese</string>
     <string name="english">English</string>
+
+    <!-- Theme -->
+    <string name="theme">Theme</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
     <string name="widget_added">Widget added successfully!</string>
 </resources>

@@ -24,6 +24,7 @@ import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
 import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
 import br.com.lotaviods.listadecompras.helper.LanguageHelper
+import br.com.lotaviods.listadecompras.helper.ThemeHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LanguageHelper.applyLanguage(this)
+        ThemeHelper.applyTheme(this)
         
         enableEdgeToEdge()
 
@@ -106,6 +108,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_language -> {
                 showLanguageDialog()
+                true
+            }
+            R.id.action_theme -> {
+                showThemeDialog()
                 true
             }
             R.id.action_support -> {
@@ -208,6 +214,29 @@ class MainActivity : AppCompatActivity() {
                 if (selectedLanguage != currentLanguage) {
                     LanguageHelper.setLanguage(this, selectedLanguage)
                     recreate() // Restart activity to apply language change
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun showThemeDialog() {
+        val themes = arrayOf(
+            getString(R.string.theme_system),
+            getString(R.string.theme_light),
+            getString(R.string.theme_dark)
+        )
+        val themeModes = ThemeHelper.ThemeMode.entries.toTypedArray()
+        val currentTheme = ThemeHelper.getTheme(this)
+        val selectedIndex = themeModes.indexOf(currentTheme)
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_theme))
+            .setSingleChoiceItems(themes, selectedIndex) { dialog, which ->
+                val selectedTheme = themeModes[which]
+                if (selectedTheme != currentTheme) {
+                    ThemeHelper.setTheme(this, selectedTheme)
                 }
                 dialog.dismiss()
             }

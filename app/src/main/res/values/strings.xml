@@ -3,7 +3,7 @@
     <string name="cart_activity_title">Carrinho de compras</string>
     
     <!-- List management -->
-    <string name="default_list_name">Lista Principal</string>
+    <string name="default_list_name">Lista de compras</string>
     <string name="manage_lists">Gerenciar Listas</string>
     <string name="new_list_hint">Nome da nova lista</string>
     <string name="create_list">Criar Lista</string>
@@ -78,5 +78,13 @@
     <string name="select_language">Selecionar Idioma</string>
     <string name="portuguese">Português</string>
     <string name="english">Inglês</string>
+
+    <!-- Theme -->
+    <string name="theme">Tema</string>
+    <string name="select_theme">Selecionar Tema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+
     <string name="widget_added">Widget adicionado com sucesso!</string>
 </resources>

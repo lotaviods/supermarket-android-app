@@ -43,8 +43,6 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        
-        // Apply saved language
         LanguageHelper.applyLanguage(this)
         
         startKoin {
@@ -53,6 +51,4 @@ class Application : android.app.Application() {
             modules(appModule)
         }
     }
-
-
 }
