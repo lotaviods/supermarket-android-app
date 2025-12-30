@@ -154,7 +154,18 @@ class FormularioFragment : Fragment() {
 
     // --- Helper: Validate and format price input ---
     private fun validatePriceInput(preco: String?): Boolean {
-        return true // Allow any price including empty or zero
+        if (preco.isNullOrEmpty()) {
+            binding.itemPrecoTextInputLayout.error = null
+            return true
+        }
+        val regex = Regex("""^\d+([.,]\d{0,2})?$""")
+        return if (preco.matches(regex)) {
+            binding.itemPrecoTextInputLayout.error = null
+            true
+        } else {
+            binding.itemPrecoTextInputLayout.error = getString(R.string.invalid_price)
+            false
+        }
     }
 
     // --- Helper: Update subtotal text ---

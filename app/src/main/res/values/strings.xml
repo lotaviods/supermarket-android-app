@@ -37,7 +37,8 @@
     <string name="unit_hint">Selecione a unidade</string>
     <string name="total_spent">Total gasto: %1$s</string>
     <string name="save">Salvar</string>
-    
+    <string name="invalid_price">Preço inválido</string>
+
     <!-- Units -->
     <string name="unit_piece">unidade</string>
     <string name="unit_grams">gramas</string>
