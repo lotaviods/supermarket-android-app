@@ -16,3 +16,5 @@ local.properties
 .idea/misc.xml
 .idea/codeStyles/
 .idea/markdown.xml
+.idea/deviceManager.xml
+.idea/studiobot.xml

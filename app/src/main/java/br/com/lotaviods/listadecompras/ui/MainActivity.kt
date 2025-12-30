@@ -1,29 +1,18 @@
 package br.com.lotaviods.listadecompras.ui
 
 import android.app.AlertDialog
-import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
-import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -33,17 +22,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.lotaviods.listadecompras.BuildConfig
 import br.com.lotaviods.listadecompras.R
-import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
 import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
 import br.com.lotaviods.listadecompras.helper.LanguageHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
-import br.com.lotaviods.listadecompras.repository.ItemRepository
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
 import br.com.lotaviods.listadecompras.ui.list.ShoppingListAdapter
 import br.com.lotaviods.listadecompras.ui.main.MainFragmentDirections
-import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,13 +40,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
-    private val repo by inject<ItemRepository>()
     private val cartRepo by inject<CartRepository>()
 
     private val cartIntentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 try {
                     navController.navigate(R.id.MainFragment)
 
@@ -141,17 +126,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CartActivity::class.java)
 
             CoroutineScope(Dispatchers.IO).launch {
-                val array = arrayListOf<Item>()
-                array.addAll(repo.getAllItems())
-
-
-
                 withContext(Dispatchers.Main) {
-                    val bundle = Bundle().apply {
-                        putParcelableArrayList(Constantes.CART_BUNDLE_ITENS, array)
-                    }
-
-                    intent.putExtras(bundle)
                     intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
 
                     cartIntentLauncher.launch(intent)

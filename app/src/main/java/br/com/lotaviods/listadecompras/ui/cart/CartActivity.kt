@@ -55,7 +55,7 @@ class CartActivity : AppCompatActivity() {
                 try {
                     val data = Intent()
                     data.putExtra("item", acao.item)
-                    setResult(Activity.RESULT_OK, data)
+                    setResult(RESULT_OK, data)
                     finish()
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -68,10 +68,8 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        // Apply saved language
         LanguageHelper.applyLanguage(this)
-        
+
         enableEdgeToEdge()
         window.statusBarColor = android.graphics.Color.TRANSPARENT
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
@@ -113,10 +111,12 @@ class CartActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val currentListId = cartRepository.getCurrentListId()
             val currentList = cartRepository.shoppingListDao.getListById(currentListId)
-            
+
             withContext(Dispatchers.Main) {
-                binding.edtNomeLista.setText(currentList?.name ?: getString(R.string.default_list_name))
-                
+                binding.edtNomeLista.setText(
+                    currentList?.name ?: getString(R.string.default_list_name)
+                )
+
                 binding.edtNomeLista.doAfterTextChanged { text ->
                     CoroutineScope(Dispatchers.IO).launch {
                         delay(1000)
@@ -131,11 +131,15 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun inicializaItens() {
-        intent.extras?.getParcelableArrayList<Item>(Constantes.CART_BUNDLE_ITENS)?.let {
-            itens = it
+        CoroutineScope(Dispatchers.IO).launch {
+            val list = itensRepository.getAllItems()
+            itens = ArrayList(list)
+            withContext(Dispatchers.Main) {
+                itensAdapter.addItens(itens ?: listOf())
+                configuraTelaSemItens(itens)
+                atualizaPrecoTotal()
+            }
         }
-
-        atualizaPrecoTotal()
     }
 
     private fun atualizaPrecoTotal() {

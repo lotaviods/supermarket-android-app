@@ -35,6 +35,7 @@ import androidx.glance.text.TextStyle
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
+import br.com.lotaviods.listadecompras.ui.cart.CartActivity
 import br.com.lotaviods.listadecompras.widget.model.WidgetState
 import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
 import org.koin.core.component.KoinComponent
@@ -67,7 +68,8 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                     ) {
                         // Left side - List info and items count
                         Column(
-                            modifier = GlanceModifier.defaultWeight().padding(end = 8.dp),
+                            modifier = GlanceModifier.defaultWeight().padding(end = 8.dp)
+                                .clickable(actionStartActivity<MainActivity>()),
                             horizontalAlignment = Alignment.Start
                         ) {
                             Text(
@@ -126,7 +128,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_shopping_cart),
                                 modifier = GlanceModifier
-                                    .clickable(actionStartActivity<MainActivity>())
+                                    .clickable(actionStartActivity<CartActivity>())
                                     .padding(4.dp),
                                 colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                                 contentDescription = context.getString(R.string.widget_open_app)
@@ -149,7 +151,8 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(
-                            modifier = GlanceModifier.defaultWeight(),
+                            modifier = GlanceModifier.defaultWeight()
+                                .clickable(actionStartActivity<MainActivity>()),
                             horizontalAlignment = Alignment.Start
                         ) {
                             Text(
@@ -176,7 +179,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_shopping_cart),
                                 modifier = GlanceModifier
-                                    .clickable(actionStartActivity<MainActivity>())
+                                    .clickable(actionStartActivity<CartActivity>())
                                     .padding(4.dp),
                                 colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                                 contentDescription = context.getString(R.string.widget_open_app)

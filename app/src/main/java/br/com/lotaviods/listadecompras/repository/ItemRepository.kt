@@ -5,7 +5,7 @@ import br.com.lotaviods.listadecompras.model.item.Item
 
 class ItemRepository(private val dao: ItemDao, private val cartRepository: CartRepository) {
 
-    suspend fun getAllItems(): MutableList<Item> {
+    suspend fun getAllItems(): List<Item> {
         return dao.getItemsByList(cartRepository.getCurrentListId())
     }
 
@@ -18,10 +18,10 @@ class ItemRepository(private val dao: ItemDao, private val cartRepository: CartR
     }
 
     suspend fun deletaTodosOsItens() {
-        dao.deletaTudo()
+        dao.deleteItemsByList(cartRepository.getCurrentListId())
     }
 
-    suspend fun getItensPelaCategoria(category: Int): MutableList<Item> {
+    suspend fun getItemsPelaCategoria(category: Int): List<Item> {
         return dao.getItemByCategoryAndList(category, cartRepository.getCurrentListId())
     }
 

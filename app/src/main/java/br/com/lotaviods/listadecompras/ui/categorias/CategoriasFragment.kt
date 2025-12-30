@@ -73,7 +73,7 @@ class CategoriasFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         CoroutineScope(Dispatchers.IO).launch {
-            val itens = repository.getItensPelaCategoria(args.categoria)
+            val itens = repository.getItemsPelaCategoria(args.categoria)
 
             withContext(Dispatchers.Main) {
                 mAdapter.addItens(itens)
@@ -93,7 +93,7 @@ class CategoriasFragment : Fragment() {
 
     private fun getItems() {
         CoroutineScope(Dispatchers.IO).launch {
-            val itens = repository.getItensPelaCategoria(args.categoria)
+            val itens = repository.getItemsPelaCategoria(args.categoria)
             withContext(Dispatchers.Main) {
                 mAdapter.addItens(itens)
             }
