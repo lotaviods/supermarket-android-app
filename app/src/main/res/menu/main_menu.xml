@@ -5,4 +5,8 @@
         android:id="@+id/action_manage_lists"
         android:title="@string/manage_lists"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_language"
+        android:title="@string/language"
+        app:showAsAction="never" />
 </menu>

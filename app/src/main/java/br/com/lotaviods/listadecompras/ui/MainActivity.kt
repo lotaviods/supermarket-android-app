@@ -34,6 +34,7 @@ import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
 import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
+import br.com.lotaviods.listadecompras.helper.LanguageHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
@@ -77,6 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LanguageHelper.applyLanguage(this)
+        
         enableEdgeToEdge()
 
         val statusBarColor = TypedValue()
@@ -112,6 +115,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_manage_lists -> {
                 showListManagementDialog()
+                true
+            }
+            R.id.action_language -> {
+                showLanguageDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -202,5 +209,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+    
+    private fun showLanguageDialog() {
+        val languages = arrayOf(
+            getString(R.string.portuguese),
+            getString(R.string.english)
+        )
+        val languageCodes = arrayOf("pt", "en")
+        val currentLanguage = LanguageHelper.getLanguage(this)
+        val selectedIndex = languageCodes.indexOf(currentLanguage)
+        
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_language))
+            .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
+                val selectedLanguage = languageCodes[which]
+                if (selectedLanguage != currentLanguage) {
+                    LanguageHelper.setLanguage(this, selectedLanguage)
+                    recreate() // Restart activity to apply language change
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 }

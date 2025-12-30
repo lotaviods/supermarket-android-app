@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="cart_activity_title">Shopping Cart</string>
+    
+    <!-- List management -->
+    <string name="default_list_name">Main List</string>
+    <string name="manage_lists">Manage Lists</string>
+    <string name="new_list_hint">New list name</string>
+    <string name="create_list">Create List</string>
+    <string name="close">Close</string>
+    <string name="delete_list_title">Delete List</string>
+    <string name="delete_list_message">Are you sure you want to delete \'%1$s\'? All items in this list will be permanently removed.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    
+    <!-- Form -->
+    <string name="item_name_label">Item name</string>
+    <string name="item_name_hint">Enter product name</string>
+    <string name="item_price_label">Item price</string>
+    <string name="item_price_per_kg">Item price (per kg)</string>
+    <string name="item_price_per_liter">Item price (per liter)</string>
+    <string name="item_price_per_unit">Item price (per unit)</string>
+    <string name="price_helper_kg">Enter the price for 1 kg of this product.</string>
+    <string name="price_helper_liter">Enter the price for 1 liter of this product.</string>
+    <string name="price_helper_unit">Enter the price for 1 unit of this product.</string>
+    <string name="price_helper_default">Enter the product price.</string>
+    <string name="quantity_label">Quantity</string>
+    <string name="quantity_hint">Qty</string>
+    <string name="unit_hint">Select unit</string>
+    <string name="total_spent">Total spent: %1$s</string>
+    <string name="save">Save</string>
+    
+    <!-- Units -->
+    <string name="unit_piece">unit</string>
+    <string name="unit_grams">grams</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_ml">ml</string>
+    <string name="unit_liters">liters</string>
+    <string name="unit_none">none</string>
+    
+    <!-- Cart -->
+    <string name="list_name_hint">List name</string>
+    <string name="total_value">Total value: %1$s</string>
+    <string name="clear_cart">Clear cart</string>
+    <string name="empty_cart_title">No items in cart</string>
+    <string name="empty_cart_subtitle">Try adding some items</string>
+    <string name="back">Back</string>
+    <string name="subtotal">Subtotal:</string>
+    
+    <!-- Categories -->
+    <string name="category_hortifruti">Produce</string>
+    <string name="category_limpeza">Cleaning</string>
+    <string name="category_acougue">Butcher</string>
+    <string name="category_outros">Others</string>
+    
+    <!-- Buttons -->
+    <string name="add_new_item">Add new item</string>
+    <string name="add_widget">Add widget</string>
+    
+    <!-- Content Descriptions -->
+    <string name="shopping_cart_desc">Shopping cart</string>
+    
+    <!-- Language -->
+    <string name="language">Language</string>
+    <string name="select_language">Select Language</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="english">English</string>
+</resources>

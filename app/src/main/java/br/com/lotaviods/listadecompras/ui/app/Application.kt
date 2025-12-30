@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.data.database.AppDatabase
+import br.com.lotaviods.listadecompras.helper.LanguageHelper
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
 import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
@@ -42,13 +43,15 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
+        
+        // Apply saved language
+        LanguageHelper.applyLanguage(this)
+        
         startKoin {
             androidLogger()
             androidContext(this@Application)
             modules(appModule)
         }
-
-
     }
 
 

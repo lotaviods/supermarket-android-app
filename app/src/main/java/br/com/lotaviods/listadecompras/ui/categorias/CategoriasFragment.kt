@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.FragmentCategoriasBinding
 import br.com.lotaviods.listadecompras.repository.ItemRepository
@@ -109,12 +110,11 @@ class CategoriasFragment : Fragment() {
 
     private fun configuraTitulo() {
         (activity as MainActivity).supportActionBar?.title = when (args.categoria) {
-            Constantes.CATEGORIA_LEGUME -> "Hortifruti"
-            Constantes.CATEGORIA_LIMPEZA -> "Limpeza"
-            Constantes.CATEGORIA_ACOUGUE -> "Açougue"
-            Constantes.CATEGORIA_OUTROS -> "Outros"
+            Constantes.CATEGORIA_LEGUME -> getString(R.string.category_hortifruti)
+            Constantes.CATEGORIA_LIMPEZA -> getString(R.string.category_limpeza)
+            Constantes.CATEGORIA_ACOUGUE -> getString(R.string.category_acougue)
+            Constantes.CATEGORIA_OUTROS -> getString(R.string.category_outros)
             else -> ""
-
         }
     }
 

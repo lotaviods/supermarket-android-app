@@ -11,7 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:text="Adicionar novo item"
+        android:text="@string/add_new_item"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

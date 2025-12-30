@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityCartBinding
+import br.com.lotaviods.listadecompras.helper.LanguageHelper
 import br.com.lotaviods.listadecompras.helper.PrecoHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
@@ -67,6 +68,10 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Apply saved language
+        LanguageHelper.applyLanguage(this)
+        
         enableEdgeToEdge()
         window.statusBarColor = android.graphics.Color.TRANSPARENT
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
