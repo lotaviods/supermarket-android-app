@@ -85,4 +85,5 @@
     <string name="select_language">Select Language</string>
     <string name="portuguese">Portuguese</string>
     <string name="english">English</string>
+    <string name="widget_added">Widget added successfully!</string>
 </resources>
