@@ -20,9 +20,13 @@
     <string name="item_price_per_kg">Preço do item (por kg)</string>
     <string name="item_price_per_liter">Preço do item (por litro)</string>
     <string name="item_price_per_unit">Preço do item (por unidade)</string>
+    <string name="item_price_per_lb">Preço do item (por lb)</string>
+    <string name="item_price_per_gallon">Preço do item (por galão)</string>
     <string name="price_helper_kg">Informe o preço para 1 kg deste produto.</string>
     <string name="price_helper_liter">Informe o preço para 1 litro deste produto.</string>
     <string name="price_helper_unit">Informe o preço para 1 unidade deste produto.</string>
+    <string name="price_helper_lb">Informe o preço para 1 lb deste produto.</string>
+    <string name="price_helper_gallon">Informe o preço para 1 galão deste produto.</string>
     <string name="price_helper_default">Informe o preço do produto.</string>
     <string name="quantity_label">Quantidade</string>
     <string name="quantity_hint">Qtd</string>
@@ -38,7 +42,10 @@
     <string name="unit_ml">ml</string>
     <string name="unit_liters">litros</string>
     <string name="unit_none">nenhum</string>
-    
+    <string name="unit_lbs">lbs</string>
+    <string name="unit_oz">oz</string>
+    <string name="unit_gallons">galões</string>
+
     <!-- Cart -->
     <string name="list_name_hint">Nome lista</string>
     <string name="total_value">Valor total: %1$s</string>
@@ -85,6 +92,12 @@
     <string name="theme_system">Sistema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Escuro</string>
+
+    <!-- Measurement System -->
+    <string name="measurement_system">Sistema de Medidas</string>
+    <string name="select_measurement_system">Selecionar Sistema de Medidas</string>
+    <string name="system_metric">Métrico</string>
+    <string name="system_imperial">Imperial</string>
 
     <string name="widget_added">Widget adicionado com sucesso!</string>
 </resources>

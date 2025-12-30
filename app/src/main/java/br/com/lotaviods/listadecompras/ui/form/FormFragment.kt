@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constants
 import br.com.lotaviods.listadecompras.databinding.FragmentFormBinding
+import br.com.lotaviods.listadecompras.helper.MeasurementHelper
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.ItemRepository
@@ -82,14 +83,26 @@ class FormFragment : Fragment() {
         }
 
         // --- Unit Dropdown Setup ---
-        val units = listOf(
-            getString(R.string.unit_piece),
-            getString(R.string.unit_grams),
-            getString(R.string.unit_kg),
-            getString(R.string.unit_ml),
-            getString(R.string.unit_liters),
-            getString(R.string.unit_none)
-        )
+        val useImperial = MeasurementHelper.useImperialSystem(requireContext())
+        val units = if (useImperial) {
+            listOf(
+                getString(R.string.unit_piece),
+                getString(R.string.unit_oz),
+                getString(R.string.unit_lbs),
+                getString(R.string.unit_gallons),
+                getString(R.string.unit_none)
+            )
+        } else {
+            listOf(
+                getString(R.string.unit_piece),
+                getString(R.string.unit_grams),
+                getString(R.string.unit_kg),
+                getString(R.string.unit_ml),
+                getString(R.string.unit_liters),
+                getString(R.string.unit_none)
+            )
+        }
+        
         val unitAdapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, units)
         binding.itemUnitAutoComplete.setAdapter(unitAdapter)
@@ -99,7 +112,7 @@ class FormFragment : Fragment() {
             binding.itemUnitAutoComplete.showDropDown()
         }
         binding.itemUnitAutoComplete.setOnItemClickListener { _, _, position, _ ->
-            val selected = units[position]
+            val selected = binding.itemUnitAutoComplete.adapter.getItem(position) as String
             updatePriceLabelAndHelper(selected)
             val price = binding.itemPriceEditText.text.toString()
             updatePriceTextView(currentQuantity, price)
@@ -142,6 +155,12 @@ class FormFragment : Fragment() {
 
             Constants.UNIT_LITERS, Constants.UNIT_ML ->
                 getString(R.string.item_price_per_liter) to getString(R.string.price_helper_liter)
+            
+            Constants.UNIT_LBS, Constants.UNIT_OZ ->
+                getString(R.string.item_price_per_lb) to getString(R.string.price_helper_lb)
+            
+            Constants.UNIT_GALLONS ->
+                getString(R.string.item_price_per_gallon) to getString(R.string.price_helper_gallon)
 
             Constants.UNIT_PIECE ->
                 getString(R.string.item_price_per_unit) to getString(R.string.price_helper_unit)
@@ -219,6 +238,9 @@ class FormFragment : Fragment() {
             getString(R.string.unit_ml).lowercase() -> Constants.UNIT_ML
             getString(R.string.unit_liters).lowercase() -> Constants.UNIT_LITERS
             getString(R.string.unit_piece).lowercase() -> Constants.UNIT_PIECE
+            getString(R.string.unit_lbs).lowercase() -> Constants.UNIT_LBS
+            getString(R.string.unit_oz).lowercase() -> Constants.UNIT_OZ
+            getString(R.string.unit_gallons).lowercase() -> Constants.UNIT_GALLONS
             getString(R.string.unit_none).lowercase() -> Constants.UNIT_NONE
             else -> Constants.UNIT_PIECE
         }

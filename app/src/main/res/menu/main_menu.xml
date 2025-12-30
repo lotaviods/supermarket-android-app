@@ -14,6 +14,10 @@
         android:title="@string/theme"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_measurement"
+        android:title="@string/measurement_system"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_support"
         android:title="@string/support_me"
         app:showAsAction="never" />

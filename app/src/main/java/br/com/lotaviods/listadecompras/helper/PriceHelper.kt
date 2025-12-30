@@ -23,7 +23,8 @@ object PriceHelper {
 
         return when (unit) {
             Constants.UNIT_GRAMS, Constants.UNIT_ML -> (quantity / 1000.0) * priceDouble
-            Constants.UNIT_KG, Constants.UNIT_LITERS -> quantity * priceDouble
+            Constants.UNIT_OZ -> (quantity / 16.0) * priceDouble
+            Constants.UNIT_KG, Constants.UNIT_LITERS, Constants.UNIT_LBS, Constants.UNIT_GALLONS -> quantity * priceDouble
             else -> quantity * priceDouble
         }
     }
@@ -35,6 +36,9 @@ object PriceHelper {
             Constants.UNIT_ML -> context.getString(R.string.unit_ml)
             Constants.UNIT_LITERS -> context.getString(R.string.unit_liters)
             Constants.UNIT_PIECE -> context.getString(R.string.unit_piece)
+            Constants.UNIT_LBS -> context.getString(R.string.unit_lbs)
+            Constants.UNIT_OZ -> context.getString(R.string.unit_oz)
+            Constants.UNIT_GALLONS -> context.getString(R.string.unit_gallons)
             Constants.UNIT_NONE -> ""
             else -> context.getString(R.string.unit_piece)
         }

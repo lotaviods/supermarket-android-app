@@ -12,5 +12,8 @@ class Constants {
         const val UNIT_LITERS = 3
         const val UNIT_ML = 4
         const val UNIT_NONE = 5
+        const val UNIT_LBS = 6
+        const val UNIT_OZ = 7
+        const val UNIT_GALLONS = 8
     }
 }

@@ -24,6 +24,7 @@ import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
 import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
 import br.com.lotaviods.listadecompras.helper.LanguageHelper
+import br.com.lotaviods.listadecompras.helper.MeasurementHelper
 import br.com.lotaviods.listadecompras.helper.ThemeHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
@@ -112,6 +113,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_theme -> {
                 showThemeDialog()
+                true
+            }
+            R.id.action_measurement -> {
+                showMeasurementDialog()
                 true
             }
             R.id.action_support -> {
@@ -237,6 +242,28 @@ class MainActivity : AppCompatActivity() {
                 val selectedTheme = themeModes[which]
                 if (selectedTheme != currentTheme) {
                     ThemeHelper.setTheme(this, selectedTheme)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun showMeasurementDialog() {
+        val systems = arrayOf(
+            getString(R.string.system_metric),
+            getString(R.string.system_imperial)
+        )
+        val useImperial = MeasurementHelper.useImperialSystem(this)
+        val selectedIndex = if (useImperial) 1 else 0
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_measurement_system))
+            .setSingleChoiceItems(systems, selectedIndex) { dialog, which ->
+                val selectedImperial = which == 1
+                if (selectedImperial != useImperial) {
+                    MeasurementHelper.setUseImperialSystem(this, selectedImperial)
+                    recreate()
                 }
                 dialog.dismiss()
             }
