@@ -1,8 +1,8 @@
 package br.com.lotaviods.listadecompras.helper
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.Configuration
+import androidx.core.content.edit
 import java.util.Locale
 
 object LanguageHelper {
@@ -11,7 +11,7 @@ object LanguageHelper {
     
     fun setLanguage(context: Context, languageCode: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putString(KEY_LANGUAGE, languageCode).apply()
+        prefs.edit { putString(KEY_LANGUAGE, languageCode) }
         
         updateLocale(context, languageCode)
     }

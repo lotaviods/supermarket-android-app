@@ -17,15 +17,15 @@ class ItemRepository(private val dao: ItemDao, private val cartRepository: CartR
         dao.delete(item)
     }
 
-    suspend fun deletaTodosOsItens() {
+    suspend fun deleteAllItems() {
         dao.deleteItemsByList(cartRepository.getCurrentListId())
     }
 
-    suspend fun getItemsPelaCategoria(category: Int): List<Item> {
+    suspend fun getItemsByCategory(category: Int): List<Item> {
         return dao.getItemByCategoryAndList(category, cartRepository.getCurrentListId())
     }
 
-    suspend fun editaItem(item: Item) {
+    suspend fun editItem(item: Item) {
         return dao.update(item)
     }
 }

@@ -12,70 +12,70 @@
         tools:layout="@layout/fragment_main">
 
         <action
-            android:id="@+id/action_MainFragment_to_CategoriasFragment"
-            app:destination="@id/CategoriasFragment">
+            android:id="@+id/action_MainFragment_to_CategoryFragment"
+            app:destination="@id/CategoryFragment">
 
             <argument
-                android:name="categoria"
+                android:name="category"
                 app:argType="integer" />
         </action>
 
         <action
-            android:id="@+id/action_MainFragment_to_FormularioFragment_with_item"
-            app:destination="@id/FormularioFragment">
+            android:id="@+id/action_MainFragment_to_FormFragment_with_item"
+            app:destination="@id/FormFragment">
             <argument
-                android:name="categoria"
+                android:name="category"
                 app:argType="integer" />
 
             <argument
-                android:name="produto"
+                android:name="product"
                 app:argType="br.com.lotaviods.listadecompras.model.item.Item"/>
         </action>
 
     </fragment>
 
     <fragment
-        android:id="@+id/CategoriasFragment"
-        android:name="br.com.lotaviods.listadecompras.ui.categorias.CategoriasFragment"
-        tools:layout="@layout/fragment_categorias">
+        android:id="@+id/CategoryFragment"
+        android:name="br.com.lotaviods.listadecompras.ui.categories.CategoriesFragment"
+        tools:layout="@layout/fragment_categories">
 
         <argument
-            android:name="categoria"
+            android:name="category"
             android:defaultValue="0"
             app:argType="integer" />
         <action
-            android:id="@+id/action_CategoriasFragment_to_FormularioFragment"
-            app:destination="@id/FormularioFragment">
+            android:id="@+id/action_CategoryFragment_to_FormFragment"
+            app:destination="@id/FormFragment">
             <argument
-                android:name="categoria"
+                android:name="category"
                 app:argType="integer" />
         </action>
 
         <action
-            android:id="@+id/action_CategoriasFragment_to_FormularioFragment_with_item"
-            app:destination="@id/FormularioFragment">
+            android:id="@+id/action_CategoriesFragment_to_FormFragment_with_item"
+            app:destination="@id/FormFragment">
             <argument
-                android:name="categoria"
+                android:name="category"
                 app:argType="integer" />
 
             <argument
-                android:name="produto"
+                android:name="product"
                 app:argType="br.com.lotaviods.listadecompras.model.item.Item"/>
         </action>
     </fragment>
 
     <fragment
-        android:id="@+id/FormularioFragment"
-        android:name="br.com.lotaviods.listadecompras.ui.formulario.FormularioFragment"
-        tools:layout="@layout/fragment_formulario">
+        android:id="@+id/FormFragment"
+        android:name="br.com.lotaviods.listadecompras.ui.form.FormFragment"
+        tools:layout="@layout/fragment_form">
 
         <argument
-            android:name="categoria"
+            android:name="category"
             android:defaultValue="0"
             app:argType="integer" />
 
         <argument
-            android:name="produto"
+            android:name="product"
             app:argType="br.com.lotaviods.listadecompras.model.item.Item"
             app:nullable="true"/>
     </fragment>

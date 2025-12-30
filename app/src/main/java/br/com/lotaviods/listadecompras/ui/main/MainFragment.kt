@@ -39,7 +39,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        configuraClicksCards()
+        configureCardClicks()
         configurePinWidgetButton()
     }
 
@@ -74,32 +74,32 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun configuraClicksCards() {
-        binding.legumesMaterialCardView.setOnClickListener {
+    private fun configureCardClicks() {
+        binding.vegetablesMaterialCardView.setOnClickListener {
             findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constants.CATEGORIA_LEGUME
+                MainFragmentDirections.actionMainFragmentToCategoryFragment(
+                    Constants.CATEGORY_VEGETABLES
                 )
             )
         }
-        binding.limpezaMaterialCardView.setOnClickListener {
+        binding.cleaningMaterialCardView.setOnClickListener {
             findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constants.CATEGORIA_LIMPEZA
+                MainFragmentDirections.actionMainFragmentToCategoryFragment(
+                    Constants.CATEGORY_CLEANING
                 )
             )
         }
-        binding.acougueMaterialCardView.setOnClickListener {
+        binding.butcherMaterialCardView.setOnClickListener {
             findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constants.CATEGORIA_ACOUGUE
+                MainFragmentDirections.actionMainFragmentToCategoryFragment(
+                    Constants.CATEGORY_BUTCHER
                 )
             )
         }
-        binding.outrasComprasMaterialCardView.setOnClickListener {
+        binding.othersMaterialCardView.setOnClickListener {
             findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToCategoriasFragment(
-                    Constants.CATEGORIA_OUTROS
+                MainFragmentDirections.actionMainFragmentToCategoryFragment(
+                    Constants.CATEGORY_OTHERS
                 )
             )
         }

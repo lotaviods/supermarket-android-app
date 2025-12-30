@@ -1,13 +1,5 @@
 <resources>
     <string name="app_name">Lista de compras</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="cart_activity_title">Carrinho de compras</string>
     
     <!-- List management -->
@@ -57,10 +49,10 @@
     <string name="subtotal">Subtotal:</string>
     
     <!-- Categories -->
-    <string name="category_hortifruti">Hortifruti</string>
-    <string name="category_limpeza">Limpeza</string>
-    <string name="category_acougue">Açougue</string>
-    <string name="category_outros">Outros</string>
+    <string name="category_produce">Hortifruti</string>
+    <string name="category_cleaning">Limpeza</string>
+    <string name="category_butcher">Açougue</string>
+    <string name="category_others">Outros</string>
     
     <!-- Buttons -->
     <string name="add_new_item">Adicionar novo item</string>

@@ -18,7 +18,7 @@
         android:layout_height="75dp">
 
         <TextView
-            android:id="@+id/txt_qnt"
+            android:id="@+id/text_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -29,7 +29,7 @@
             tools:text="1" />
 
         <TextView
-            android:id="@+id/text_descricao_item"
+            android:id="@+id/text_description_item"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:ellipsize="end"
@@ -38,13 +38,12 @@
             android:maxLines="1"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/preco_item"
-            app:layout_constraintStart_toEndOf="@+id/txt_qnt"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="descricao" />
+            app:layout_constraintEnd_toStartOf="@id/price_item"
+            app:layout_constraintStart_toEndOf="@+id/text_quantity"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/preco_item"
+            android:id="@+id/price_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -52,17 +51,17 @@
             android:layout_marginBottom="12dp"
             android:gravity="end"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton_delete"
+            app:layout_constraintEnd_toStartOf="@+id/image_button_delete"
             tools:text="R$ 10,90" />
 
         <ImageButton
-            android:id="@+id/imageButton_delete"
+            android:id="@+id/image_button_delete"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="4dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_lixeira"
+            android:src="@drawable/ic_trash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

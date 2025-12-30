@@ -1,4 +1,4 @@
-package br.com.lotaviods.listadecompras.ui.categorias
+package br.com.lotaviods.listadecompras.ui.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,39 +10,39 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constants
-import br.com.lotaviods.listadecompras.databinding.FragmentCategoriasBinding
+import br.com.lotaviods.listadecompras.databinding.FragmentCategoriesBinding
 import br.com.lotaviods.listadecompras.repository.ItemRepository
 import br.com.lotaviods.listadecompras.ui.MainActivity
-import br.com.lotaviods.listadecompras.ui.cart.adapter.ItensAdapter
+import br.com.lotaviods.listadecompras.ui.cart.adapter.ItemsAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
-class CategoriasFragment : Fragment() {
-    private var _binding: FragmentCategoriasBinding? = null
-    private val binding: FragmentCategoriasBinding get() = _binding!!
+class CategoriesFragment : Fragment() {
+    private var _binding: FragmentCategoriesBinding? = null
+    private val binding: FragmentCategoriesBinding get() = _binding!!
 
-    //todo: criar viewModel
+    //todo: create viewModel
     private val repository by inject<ItemRepository>()
 
-    private val mAdapter = ItensAdapter {
+    private val mAdapter = ItemsAdapter {
         when (it) {
-            is ItensAdapter.Acao.Editar -> {
+            is ItemsAdapter.Action.Edit -> {
                 findNavController().navigate(
-                    CategoriasFragmentDirections.actionCategoriasFragmentToFormularioFragmentWithItem(
-                        args.categoria,
+                    CategoriesFragmentDirections.actionCategoriesFragmentToFormFragmentWithItem(
+                        args.category,
                         it.item
                     )
                 )
             }
-            is ItensAdapter.Acao.Deletar -> {
+            is ItemsAdapter.Action.Delete -> {
                 CoroutineScope(Dispatchers.IO).launch {
                     repository.deleteItem(it.item)
-                    binding.rvItem.adapter.also { rvAdapter ->
+                    binding.recyclerViewItems.adapter.also { rvAdapter ->
                         withContext(Dispatchers.Main) {
-                            (rvAdapter as? ItensAdapter)?.removeItem(it.item)
+                            (rvAdapter as? ItemsAdapter)?.removeItem(it.item)
                         }
                     }
                 }
@@ -50,42 +50,42 @@ class CategoriasFragment : Fragment() {
         }
     }
 
-    private val args: CategoriasFragmentArgs by navArgs()
+    private val args: CategoriesFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategoriasBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        configuraTitulo()
-        configuraRv()
+        configureTitle()
+        configureRecyclerView()
         getItems()
-        configuraBotaoAddItem()
+        configureAddItemButton()
     }
 
     override fun onStart() {
         super.onStart()
         CoroutineScope(Dispatchers.IO).launch {
-            val itens = repository.getItemsPelaCategoria(args.categoria)
+            val items = repository.getItemsByCategory(args.category)
 
             withContext(Dispatchers.Main) {
-                mAdapter.addItens(itens)
+                mAdapter.addItems(items)
             }
         }
     }
 
-    private fun configuraBotaoAddItem() {
+    private fun configureAddItemButton() {
         binding.addItemButton.setOnClickListener {
             findNavController().navigate(
-                CategoriasFragmentDirections.actionCategoriasFragmentToFormularioFragment(
-                    args.categoria, null
+                CategoriesFragmentDirections.actionCategoryFragmentToFormFragment(
+                    args.category, null
                 )
             )
         }
@@ -93,27 +93,27 @@ class CategoriasFragment : Fragment() {
 
     private fun getItems() {
         CoroutineScope(Dispatchers.IO).launch {
-            val itens = repository.getItemsPelaCategoria(args.categoria)
+            val items = repository.getItemsByCategory(args.category)
             withContext(Dispatchers.Main) {
-                mAdapter.addItens(itens)
+                mAdapter.addItems(items)
             }
         }
     }
 
-    private fun configuraRv() {
-        binding.rvItem.apply {
+    private fun configureRecyclerView() {
+        binding.recyclerViewItems.apply {
             adapter = mAdapter
-            layoutManager = LinearLayoutManager(this@CategoriasFragment.context)
+            layoutManager = LinearLayoutManager(this@CategoriesFragment.context)
         }
 
     }
 
-    private fun configuraTitulo() {
-        (activity as MainActivity).supportActionBar?.title = when (args.categoria) {
-            Constants.CATEGORIA_LEGUME -> getString(R.string.category_hortifruti)
-            Constants.CATEGORIA_LIMPEZA -> getString(R.string.category_limpeza)
-            Constants.CATEGORIA_ACOUGUE -> getString(R.string.category_acougue)
-            Constants.CATEGORIA_OUTROS -> getString(R.string.category_outros)
+    private fun configureTitle() {
+        (activity as MainActivity).supportActionBar?.title = when (args.category) {
+            Constants.CATEGORY_VEGETABLES -> getString(R.string.category_produce)
+            Constants.CATEGORY_CLEANING -> getString(R.string.category_cleaning)
+            Constants.CATEGORY_BUTCHER -> getString(R.string.category_butcher)
+            Constants.CATEGORY_OTHERS -> getString(R.string.category_others)
             else -> ""
         }
     }

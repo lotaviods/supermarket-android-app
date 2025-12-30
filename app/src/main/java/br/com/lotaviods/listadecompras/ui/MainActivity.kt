@@ -2,7 +2,6 @@ package br.com.lotaviods.listadecompras.ui
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
@@ -35,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
+import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     val item: Item? = result.data?.getParcelableExtra("item")
                     item?.category?.let {
                         navController.navigate(
-                            MainFragmentDirections.actionMainFragmentToFormularioFragmentWithItem(
+                            MainFragmentDirections.actionMainFragmentToFormFragmentWithItem(
                                 it, item
                             )
                         )
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        configuraClickShoppingCart()
+        setUpClickShoppingCart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun configuraClickShoppingCart() {
+    private fun setUpClickShoppingCart() {
         binding.fabShoppingCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
 
@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun openSupportLink() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.SUPPORT_URL))
+        val intent = Intent(Intent.ACTION_VIEW, BuildConfig.SUPPORT_URL.toUri())
         startActivity(intent)
     }
 }

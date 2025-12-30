@@ -10,11 +10,11 @@ import br.com.lotaviods.listadecompras.constantes.Constants
 @Entity
 data class Item(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
-    @ColumnInfo(name = "name") val nome: String? = "",
-    @ColumnInfo(name = "value") val valor: String? = "",
+    @ColumnInfo(name = "name") val name: String? = "",
+    @ColumnInfo(name = "value") val value: String? = "",
     @ColumnInfo(name = "category") val category: Int? = 0,
-    @ColumnInfo(name = "qnt") val qnt: Int? = 0,
-    @ColumnInfo(name = "unit_int", defaultValue = "${Constants.UNIT_PIECE}") val unidade: Int = Constants.UNIT_PIECE,
+    @ColumnInfo(name = "qnt") val quantity: Int? = 0,
+    @ColumnInfo(name = "unit_int", defaultValue = "${Constants.UNIT_PIECE}") val unit: Int = Constants.UNIT_PIECE,
     @ColumnInfo(name = "list_id") val listId: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -25,16 +25,15 @@ data class Item(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readInt(),
         parcel.readInt()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(uid)
-        parcel.writeString(nome)
-        parcel.writeString(valor)
+        parcel.writeString(name)
+        parcel.writeString(value)
         parcel.writeValue(category)
-        parcel.writeValue(qnt)
-        parcel.writeInt(unidade)
+        parcel.writeValue(quantity)
+        parcel.writeInt(unit)
         parcel.writeInt(listId)
     }
 

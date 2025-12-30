@@ -1,4 +1,4 @@
-# Lista de Compras
+# ShoppingCart
 
 A modern Android app for managing your shopping list, built with Kotlin, Material 3, and Jetpack libraries.
 

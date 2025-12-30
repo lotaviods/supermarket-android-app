@@ -1,5 +1,6 @@
 package br.com.lotaviods.listadecompras.ui.list
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ class ShoppingListAdapter(
     private val lists = mutableListOf<ShoppingList>()
     private var currentListId: Int = 1
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateLists(newLists: List<ShoppingList>, currentId: Int = 1) {
         lists.clear()
         lists.addAll(newLists)

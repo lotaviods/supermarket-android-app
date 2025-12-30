@@ -33,7 +33,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import br.com.lotaviods.listadecompras.R
-import br.com.lotaviods.listadecompras.helper.PrecoHelper
+import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
@@ -92,7 +92,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             val itemsToShow = items.take(2)
                             itemsToShow.forEach { item ->
                                 Text(
-                                    text = "• ${item.nome}",
+                                    text = "• ${item.name}",
                                     style = TextStyle(
                                         fontSize = 11.sp,
                                         color = GlanceTheme.colors.onSurface
@@ -218,7 +218,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
     
     private fun calculateTotal(items: List<Item>): Double {
         return items.sumOf {
-            PrecoHelper.calcularValorTotal(it.qnt ?: 0, it.valor, it.unidade)
+            PriceHelper.calculateTotalValue(it.quantity ?: 0, it.value, it.unit)
         }
     }
 }

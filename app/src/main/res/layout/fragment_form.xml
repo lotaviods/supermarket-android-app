@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_descricao_texView"
+            android:id="@+id/item_description_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -25,7 +25,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/item_descricao_editText"
+            android:id="@+id/item_description_edit_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/item_name_hint"
@@ -34,7 +34,7 @@
             android:maxLength="50"/>
 
         <TextView
-            android:id="@+id/item_preco_texView"
+            android:id="@+id/item_price_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -43,11 +43,11 @@
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_preco_textInputLayout"
+            android:id="@+id/item_price_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/item_preco_editText"
+                android:id="@+id/item_price_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
@@ -56,7 +56,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/item_quantidade_texView"
+            android:id="@+id/item_quantity_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -73,7 +73,7 @@
             android:layout_marginTop="4dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/item_qnt_minus"
+                android:id="@+id/item_quantity_minus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:text="-"
@@ -81,7 +81,8 @@
                 android:textStyle="bold"
                 android:backgroundTint="?attr/colorSurface"
                 android:textColor="?attr/colorPrimary"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="64dp"
@@ -91,18 +92,19 @@
                 app:boxBackgroundMode="outline">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/item_qnt_value"
+                    android:id="@+id/item_quantity_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="1"
                     android:textSize="20sp"
                     android:inputType="number"
-                    android:hint="@string/quantity_hint" />
+                    android:hint="@string/quantity_hint"
+                    tools:ignore="HardcodedText" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/item_qnt_plus"
+                android:id="@+id/item_quantity_plus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:text="+"
@@ -110,7 +112,8 @@
                 android:textStyle="bold"
                 android:backgroundTint="?attr/colorSurface"
                 android:textColor="?attr/colorPrimary"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -119,7 +122,7 @@
             android:paddingBottom="10dp">
 
             <AutoCompleteTextView
-                android:id="@+id/item_unidade_autoComplete"
+                android:id="@+id/item_unit_auto_complete"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:dropDownHeight="200dp"
@@ -130,16 +133,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/sub_total_textView"
+            android:id="@+id/subtotal_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            tools:text="Total gasto: R$"
+            tools:text="Total spend: R$"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botao_salvar"
+            android:id="@+id/button_save"
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
