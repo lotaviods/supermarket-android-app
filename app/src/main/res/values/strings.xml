@@ -68,6 +68,15 @@
     <!-- Content Descriptions -->
     <string name="shopping_cart_desc">Carrinho de compras</string>
     
+    <!-- Widget -->
+    <string name="widget_items_count">%1$d itens</string>
+    <string name="widget_and_more">… e mais %1$d</string>
+    <string name="widget_empty_title">Lista vazia</string>
+    <string name="widget_empty_subtitle">Toque para adicionar itens</string>
+    <string name="widget_loading">Carregando…</string>
+    <string name="widget_open_app">Abrir app</string>
+    <string name="widget_refresh">Atualizar</string>
+    
     <!-- Language -->
     <string name="language">Idioma</string>
     <string name="select_language">Selecionar Idioma</string>
