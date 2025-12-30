@@ -24,8 +24,17 @@ interface ItemDao {
     @Delete
     fun delete(item: Item)
 
-    @Query("SELECT * FROM item WHERE category = :category")
-    fun getItemByCategory(category: Int): MutableList<Item>
+    @Query("SELECT * FROM item WHERE list_id = :listId ORDER BY name")
+    fun getItemsByList(listId: Int): MutableList<Item>
+
+    @Query("SELECT * FROM item WHERE list_id = :listId ORDER BY name")
+    fun getItemsByListFlow(listId: Int): Flow<MutableList<Item>>
+
+    @Query("SELECT * FROM item WHERE category = :category AND list_id = :listId")
+    fun getItemByCategoryAndList(category: Int, listId: Int): MutableList<Item>
+
+    @Query("DELETE FROM item WHERE list_id = :listId")
+    fun deleteItemsByList(listId: Int)
 
     @Query("DELETE FROM item")
     fun deletaTudo()

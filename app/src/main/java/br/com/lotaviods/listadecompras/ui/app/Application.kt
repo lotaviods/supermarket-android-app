@@ -1,6 +1,9 @@
 package br.com.lotaviods.listadecompras.ui.app
 
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.data.database.AppDatabase
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
@@ -15,18 +18,25 @@ class Application : android.app.Application() {
         Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "app-database"
-        ).build()
+        ).addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3)
+                .addCallback(object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                val defaultName = applicationContext.getString(R.string.default_list_name)
+                db.execSQL("INSERT INTO shopping_list (id, name, created_at) VALUES (1, '$defaultName', ${System.currentTimeMillis()})")
+            }
+        }).build()
     }
 
     private val appModule = module {
         single {
-            ItemRepository(database.itemDAO())
+            CartRepository(applicationContext, database.shoppingListDAO(), database.itemDAO())
         }
         single {
-            CartRepository(applicationContext)
+            ItemRepository(database.itemDAO(), get())
         }
         single {
-            ShoppingWidgetRepository(applicationContext, database.itemDAO())
+            ShoppingWidgetRepository(applicationContext, database.itemDAO(), database.shoppingListDAO())
         }
     }
 

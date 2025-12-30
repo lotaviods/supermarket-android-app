@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.databinding.FragmentFormularioBinding
 import br.com.lotaviods.listadecompras.helper.PrecoHelper
 import br.com.lotaviods.listadecompras.model.item.Item
@@ -80,7 +81,14 @@ class FormularioFragment : Fragment() {
         }
 
         // --- Unit Dropdown Setup ---
-        val units = listOf("unidade", "gramas", "kg", "ml", "litros", "nenhum")
+        val units = listOf(
+            getString(R.string.unit_piece),
+            getString(R.string.unit_grams),
+            getString(R.string.unit_kg),
+            getString(R.string.unit_ml),
+            getString(R.string.unit_liters),
+            getString(R.string.unit_none)
+        )
         val unitAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, units)
         binding.itemUnidadeAutoComplete.setAdapter(unitAdapter)
         binding.itemUnidadeAutoComplete.setText(units[0], false) // Default to 'unidade'
@@ -125,10 +133,13 @@ class FormularioFragment : Fragment() {
 
     private fun updatePrecoLabelAndHelper(unit: String) {
         val (label, helper) = when (unit.lowercase()) {
-            "kg", "gramas" -> "Preço do item (por kg)" to "Informe o preço para 1 kg deste produto."
-            "litros", "ml" -> "Preço do item (por litro)" to "Informe o preço para 1 litro deste produto."
-            "unidade" -> "Preço do item (por unidade)" to "Informe o preço para 1 unidade deste produto."
-            else -> "Preço do item" to "Informe o preço do produto."
+            getString(R.string.unit_kg).lowercase(), getString(R.string.unit_grams).lowercase() -> 
+                getString(R.string.item_price_per_kg) to getString(R.string.price_helper_kg)
+            getString(R.string.unit_liters).lowercase(), getString(R.string.unit_ml).lowercase() -> 
+                getString(R.string.item_price_per_liter) to getString(R.string.price_helper_liter)
+            getString(R.string.unit_piece).lowercase() -> 
+                getString(R.string.item_price_per_unit) to getString(R.string.price_helper_unit)
+            else -> getString(R.string.item_price_label) to getString(R.string.price_helper_default)
         }
         binding.itemPrecoTexView.text = label
         binding.itemPrecoTextInputLayout.helperText = helper
@@ -149,7 +160,7 @@ class FormularioFragment : Fragment() {
             else -> quantidade * precoDouble // unidade, nenhum, or unknown
         }
         val numberFormat = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("pt", "BR"))
-        binding.subTotalTextView.text = "Total gasto: ${numberFormat.format(subtotal)}"
+        binding.subTotalTextView.text = getString(R.string.total_spent, numberFormat.format(subtotal))
     }
 
     private fun salvar() {

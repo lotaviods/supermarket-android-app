@@ -9,4 +9,49 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="cart_activity_title">Carrinho de compras</string>
+    
+    <!-- List management -->
+    <string name="default_list_name">Lista Principal</string>
+    <string name="manage_lists">Gerenciar Listas</string>
+    <string name="new_list_hint">Nome da nova lista</string>
+    <string name="create_list">Criar Lista</string>
+    <string name="close">Fechar</string>
+    <string name="delete_list_title">Deletar Lista</string>
+    <string name="delete_list_message">Tem certeza que deseja deletar \'%1$s\'? Todos os itens desta lista serão removidos permanentemente.</string>
+    <string name="delete">Deletar</string>
+    <string name="cancel">Cancelar</string>
+    
+    <!-- Form -->
+    <string name="item_name_label">Nome do item</string>
+    <string name="item_name_hint">Digite o nome do produto</string>
+    <string name="item_price_label">Preço do item</string>
+    <string name="item_price_per_kg">Preço do item (por kg)</string>
+    <string name="item_price_per_liter">Preço do item (por litro)</string>
+    <string name="item_price_per_unit">Preço do item (por unidade)</string>
+    <string name="price_helper_kg">Informe o preço para 1 kg deste produto.</string>
+    <string name="price_helper_liter">Informe o preço para 1 litro deste produto.</string>
+    <string name="price_helper_unit">Informe o preço para 1 unidade deste produto.</string>
+    <string name="price_helper_default">Informe o preço do produto.</string>
+    <string name="quantity_label">Quantidade</string>
+    <string name="quantity_hint">Qtd</string>
+    <string name="unit_hint">Selecione a unidade</string>
+    <string name="total_spent">Total gasto: %1$s</string>
+    <string name="save">Salvar</string>
+    
+    <!-- Units -->
+    <string name="unit_piece">unidade</string>
+    <string name="unit_grams">gramas</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_ml">ml</string>
+    <string name="unit_liters">litros</string>
+    <string name="unit_none">nenhum</string>
+    
+    <!-- Cart -->
+    <string name="list_name_hint">Nome lista</string>
+    <string name="total_value">Valor total: %1$s</string>
+    <string name="clear_cart">Limpar carrinho</string>
+    <string name="empty_cart_title">Sem itens no carrinho</string>
+    <string name="empty_cart_subtitle">Tente adicionar alguns itens</string>
+    <string name="back">Voltar</string>
+    <string name="subtotal">Subtotal:</string>
 </resources>

@@ -1,5 +1,6 @@
 package br.com.lotaviods.listadecompras.ui
 
+import android.app.AlertDialog
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
@@ -7,6 +8,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController
@@ -20,17 +23,22 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
+import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
 import br.com.lotaviods.listadecompras.model.item.Item
+import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
+import br.com.lotaviods.listadecompras.ui.list.ShoppingListAdapter
 import br.com.lotaviods.listadecompras.ui.main.MainFragmentDirections
 import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     private val repo by inject<ItemRepository>()
+    private val cartRepo by inject<CartRepository>()
 
     private val cartIntentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -94,6 +103,21 @@ class MainActivity : AppCompatActivity() {
         configuraClickShoppingCart()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_manage_lists -> {
+                showListManagementDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
@@ -121,5 +145,62 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showListManagementDialog() {
+        val dialogBinding = DialogListManagementBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .create()
+
+        val adapter = ShoppingListAdapter(
+            onListClick = { list ->
+                cartRepo.setCurrentListId(list.id)
+                dialog.dismiss()
+                recreate() // Refresh to show new list
+            },
+            onDeleteClick = { list ->
+                AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.delete_list_title))
+                    .setMessage(getString(R.string.delete_list_message, list.name))
+                    .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            cartRepo.deleteList(list)
+                            if (cartRepo.getCurrentListId() == list.id) {
+                                cartRepo.setCurrentListId(1) // Switch to main list
+                            }
+                        }
+                    }
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .show()
+            }
+        )
+
+        dialogBinding.recyclerViewLists.layoutManager = LinearLayoutManager(this)
+        dialogBinding.recyclerViewLists.adapter = adapter
+
+        lifecycleScope.launch {
+            cartRepo.getAllLists().collect { lists ->
+                adapter.updateLists(lists, cartRepo.getCurrentListId())
+            }
+        }
+
+        dialogBinding.buttonCreateList.setOnClickListener {
+            val name = dialogBinding.editTextNewList.text.toString().trim()
+            if (name.isNotEmpty()) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    cartRepo.createList(name)
+                    withContext(Dispatchers.Main) {
+                        dialogBinding.editTextNewList.text?.clear()
+                    }
+                }
+            }
+        }
+
+        dialogBinding.buttonClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

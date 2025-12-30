@@ -105,14 +105,21 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun configuraTextNomeLista() {
-
-        binding.edtNomeLista.apply {
-            setText(cartRepository.getNomeLista())
-            doAfterTextChanged { text ->
-                CoroutineScope(Dispatchers.Default).launch {
-                    delay(1000)
-                    ensureActive()
-                    cartRepository.salvaNomeLista(text.toString())
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentListId = cartRepository.getCurrentListId()
+            val currentList = cartRepository.shoppingListDao.getListById(currentListId)
+            
+            withContext(Dispatchers.Main) {
+                binding.edtNomeLista.setText(currentList?.name ?: getString(R.string.default_list_name))
+                
+                binding.edtNomeLista.doAfterTextChanged { text ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        delay(1000)
+                        ensureActive()
+                        currentList?.let { list ->
+                            cartRepository.shoppingListDao.update(list.copy(name = text.toString()))
+                        }
+                    }
                 }
             }
         }
@@ -141,7 +148,7 @@ class CartActivity : AppCompatActivity() {
             }
             withContext(Dispatchers.Main) {
                 binding.subTotalCartTextView.text =
-                    "Valor total: ${PrecoHelper.formataPreco(valorTotal.toString())}"
+                    getString(R.string.total_value, PrecoHelper.formataPreco(valorTotal.toString()))
             }
         }
     }
