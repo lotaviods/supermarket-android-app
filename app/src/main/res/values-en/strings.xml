@@ -77,6 +77,9 @@
     <string name="widget_open_app">Open app</string>
     <string name="widget_refresh">Refresh</string>
     
+    <!-- Support -->
+    <string name="support_me">Support me</string>
+    
     <!-- Language -->
     <string name="language">Language</string>
     <string name="select_language">Select Language</string>

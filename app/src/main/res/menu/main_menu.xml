@@ -9,4 +9,8 @@
         android:id="@+id/action_language"
         android:title="@string/language"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_support"
+        android:title="@string/support_me"
+        app:showAsAction="never" />
 </menu>

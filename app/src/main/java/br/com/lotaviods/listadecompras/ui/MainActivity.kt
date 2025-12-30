@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
@@ -30,6 +31,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.lotaviods.listadecompras.BuildConfig
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constantes
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
@@ -119,6 +121,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_language -> {
                 showLanguageDialog()
+                true
+            }
+            R.id.action_support -> {
+                openSupportLink()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -232,5 +238,10 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
+    }
+    
+    private fun openSupportLink() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.SUPPORT_URL))
+        startActivity(intent)
     }
 }
