@@ -36,10 +36,11 @@ object CurrencyManager {
     }
 
     fun getCurrency(context: Context): CurrencyType {
-        val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getInt(KEY_CURRENCY, CurrencyType.BRL.id.toInt())
-            .toByte()
-
-        return CurrencyType.fromId(id)
+        return runCatching {
+            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getInt(KEY_CURRENCY, CurrencyType.BRL.id.toInt())
+                .toByte()
+            CurrencyType.fromId(id)
+        }.getOrElse { CurrencyType.BRL }
     }
 }

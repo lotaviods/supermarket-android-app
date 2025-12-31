@@ -36,11 +36,15 @@ object LanguageManager {
     }
 
     fun getLanguage(context: Context): LanguageType {
-        val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getInt(KEY_LANGUAGE, LanguageType.PT.id.toInt())
-            .toByte()
+        return runCatching {
+            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getInt(KEY_LANGUAGE, LanguageType.PT.id.toInt())
+                .toByte()
 
-        return LanguageType.fromId(id)
+            LanguageType.fromId(id)
+        }.getOrElse {
+            LanguageType.PT
+        }
     }
 
     private fun applyLanguage(context: Context, language: LanguageType) {

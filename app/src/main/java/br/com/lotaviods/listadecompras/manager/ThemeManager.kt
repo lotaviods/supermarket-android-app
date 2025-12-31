@@ -37,11 +37,15 @@ object ThemeManager {
     }
 
     fun getTheme(context: Context): ThemeMode {
-        val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .getInt(KEY_THEME, ThemeMode.SYSTEM.id.toInt())
-            .toByte()
+        return runCatching {
+            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getInt(KEY_THEME, ThemeMode.SYSTEM.id.toInt())
+                .toByte()
 
-        return ThemeMode.fromId(id)
+            ThemeMode.fromId(id)
+        }.getOrElse {
+            ThemeMode.SYSTEM
+        }
     }
 
     private fun applyTheme(themeMode: ThemeMode) {
