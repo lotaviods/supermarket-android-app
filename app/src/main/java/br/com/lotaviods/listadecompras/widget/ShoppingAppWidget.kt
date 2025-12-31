@@ -34,6 +34,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.manager.CurrencyManager
+import br.com.lotaviods.listadecompras.manager.LanguageManager
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
@@ -56,6 +57,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     private fun ShoppingCartContent(context: Context) {
+        LanguageManager.applyLanguage(context)
         val state by repository.loadModel().collectAsState(initial = WidgetState.Loading)
 
         Scaffold {
