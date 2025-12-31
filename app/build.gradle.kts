@@ -50,10 +50,6 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
-    
     bundle {
         language {
             enableSplit = false
