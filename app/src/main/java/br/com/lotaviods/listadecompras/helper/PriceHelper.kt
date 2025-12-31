@@ -3,16 +3,21 @@ package br.com.lotaviods.listadecompras.helper
 import android.content.Context
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constants
+import br.com.lotaviods.listadecompras.manager.CurrencyManager.CurrencyType
 import java.text.NumberFormat
 import java.util.*
 
 object PriceHelper {
-    fun formatPrice(price: String?): String? {
+    fun formatPrice(price: String?, currencyType: CurrencyType = CurrencyType.BRL): String? {
         val priceDouble = price?.replace(',', '.')?.toDoubleOrNull()
+
         if (priceDouble != null) {
-            val numberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+            val numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
+            numberFormat.currency = currencyType.toCurrency()
+            
             numberFormat.maximumFractionDigits = 2
             numberFormat.minimumFractionDigits = 2
+            
             return numberFormat.format(priceDouble)
         }
         return null

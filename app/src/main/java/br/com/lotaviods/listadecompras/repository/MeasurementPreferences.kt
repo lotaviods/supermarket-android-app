@@ -1,9 +1,9 @@
-package br.com.lotaviods.listadecompras.helper
+package br.com.lotaviods.listadecompras.repository
 
 import android.content.Context
 import androidx.core.content.edit
 
-object MeasurementHelper {
+object MeasurementPreferences {
     private const val PREFS_NAME = "measurement_prefs"
     private const val KEY_USE_IMPERIAL = "use_imperial"
 

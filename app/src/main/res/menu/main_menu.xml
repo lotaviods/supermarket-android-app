@@ -18,6 +18,10 @@
         android:title="@string/measurement_system"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_currency"
+        android:title="@string/currency"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_support"
         android:title="@string/support_me"
         app:showAsAction="never" />

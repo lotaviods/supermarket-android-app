@@ -100,4 +100,11 @@
     <string name="system_imperial">Imperial</string>
 
     <string name="widget_added">Widget adicionado com sucesso!</string>
+
+    <!-- Currency -->
+    <string name="currency">Moeda</string>
+    <string name="select_currency">Selecionar Moeda</string>
+    <string name="currency_brl">Real (BRL)</string>
+    <string name="currency_usd">Dólar (USD)</string>
+    <string name="currency_eur">Euro (EUR)</string>
 </resources>

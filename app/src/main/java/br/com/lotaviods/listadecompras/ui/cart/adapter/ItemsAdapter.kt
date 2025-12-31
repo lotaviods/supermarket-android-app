@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import br.com.lotaviods.listadecompras.databinding.RowItemBinding
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 
@@ -50,7 +51,7 @@ class ItemsAdapter(val onItemClick: (action: Action) -> Unit = {}) :
     class ItemsVH(private val view: RowItemBinding) : ViewHolder(view.root) {
         fun bind(item: Item, onItemClick: (action: Action) -> Unit) {
             view.textDescriptionItem.text = item.name
-            
+
             val displayUnit = PriceHelper.getLocalizedUnit(view.root.context, item.unit)
             view.textQuantity.text = if (displayUnit.isNotBlank()) {
                 "${item.quantity ?: 0} $displayUnit"
@@ -58,10 +59,13 @@ class ItemsAdapter(val onItemClick: (action: Action) -> Unit = {}) :
                 "${item.quantity ?: 0}"
             }
 
-            val subtotal = PriceHelper.calculateTotalValue(item.quantity ?: 0, item.value, item.unit)
-            
-            val numberFormat = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("pt", "BR"))
-            view.priceItem.text = numberFormat.format(subtotal)
+            val subtotal =
+                PriceHelper.calculateTotalValue(item.quantity ?: 0, item.value, item.unit)
+
+            view.priceItem.text = PriceHelper.formatPrice(
+                subtotal.toString(),
+                CurrencyManager.getCurrency(view.root.context)
+            )
 
             view.layout.setOnClickListener {
                 onItemClick(Action.Edit(item))

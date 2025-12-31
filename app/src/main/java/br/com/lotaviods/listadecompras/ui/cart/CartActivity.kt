@@ -14,7 +14,8 @@ import androidx.core.view.updatePadding
 import androidx.core.view.WindowInsetsControllerCompat
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.databinding.ActivityCartBinding
-import br.com.lotaviods.listadecompras.helper.LanguageHelper
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
+import br.com.lotaviods.listadecompras.manager.LanguageManager
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
@@ -65,7 +66,7 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LanguageHelper.applyLanguage(this)
+        LanguageManager.applyLanguage(this)
 
         enableEdgeToEdge()
         window.statusBarColor = android.graphics.Color.TRANSPARENT
@@ -147,7 +148,13 @@ class CartActivity : AppCompatActivity() {
             }
             withContext(Dispatchers.Main) {
                 binding.subtotalCartTextView.text =
-                    getString(R.string.total_value, PriceHelper.formatPrice(totalValue.toString()))
+                    getString(
+                        R.string.total_value,
+                        PriceHelper.formatPrice(
+                            totalValue.toString(),
+                            CurrencyManager.getCurrency(this@CartActivity)
+                        )
+                    )
             }
         }
     }

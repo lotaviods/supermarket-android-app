@@ -33,6 +33,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import br.com.lotaviods.listadecompras.R
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
@@ -62,7 +63,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                 is WidgetState.Loaded -> {
                     val loadedState = state as WidgetState.Loaded
                     val items = loadedState.items
-                    
+
                     Row(
                         modifier = GlanceModifier.fillMaxSize().padding(12.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -101,7 +102,10 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             }
                             if (items.size > 2) {
                                 Text(
-                                    text = context.getString(R.string.widget_and_more, items.size - 2),
+                                    text = context.getString(
+                                        R.string.widget_and_more,
+                                        items.size - 2
+                                    ),
                                     style = TextStyle(
                                         fontSize = 10.sp,
                                         fontStyle = FontStyle.Italic,
@@ -111,18 +115,22 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             }
                             if (items.isNotEmpty()) {
                                 val totalValue = calculateTotal(items)
-                                Text(
-                                    text = "R$ %.2f".format(totalValue),
-                                    style = TextStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 14.sp,
-                                        color = GlanceTheme.colors.primary
-                                    )
-                                )
+                                val currency = CurrencyManager.getCurrency(context)
+
+                                PriceHelper.formatPrice(totalValue.toString(), currency)
+                                    ?.let { fmt ->
+                                        Text(
+                                            text = fmt,
+                                            style = TextStyle(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 14.sp,
+                                                color = GlanceTheme.colors.primary
+                                            )
+                                        )
+                                    }
                             }
                         }
-                        
-                        // Right side - Action buttons
+
                         Column(
                             horizontalAlignment = Alignment.End
                         ) {
@@ -145,7 +153,6 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                         }
                     }
                 }
-                
                 is WidgetState.Empty -> {
                     Row(
                         modifier = GlanceModifier.fillMaxSize().padding(12.dp),
@@ -173,7 +180,6 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                                 )
                             )
                         }
-                        
                         Column(
                             horizontalAlignment = Alignment.End
                         ) {
@@ -196,7 +202,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                         }
                     }
                 }
-                
+
                 is WidgetState.Loading -> {
                     Row(
                         modifier = GlanceModifier.fillMaxSize().padding(12.dp),
@@ -215,7 +221,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
             }
         }
     }
-    
+
     private fun calculateTotal(items: List<Item>): Double {
         return items.sumOf {
             PriceHelper.calculateTotalValue(it.quantity ?: 0, it.value, it.unit)

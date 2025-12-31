@@ -12,7 +12,8 @@ import androidx.navigation.fragment.navArgs
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.constantes.Constants
 import br.com.lotaviods.listadecompras.databinding.FragmentFormBinding
-import br.com.lotaviods.listadecompras.helper.MeasurementHelper
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
+import br.com.lotaviods.listadecompras.repository.MeasurementPreferences
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.ItemRepository
@@ -83,7 +84,7 @@ class FormFragment : Fragment() {
         }
 
         // --- Unit Dropdown Setup ---
-        val useImperial = MeasurementHelper.useImperialSystem(requireContext())
+        val useImperial = MeasurementPreferences.useImperialSystem(requireContext())
         val units = if (useImperial) {
             listOf(
                 getString(R.string.unit_piece),
@@ -102,7 +103,7 @@ class FormFragment : Fragment() {
                 getString(R.string.unit_none)
             )
         }
-        
+
         val unitAdapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, units)
         binding.itemUnitAutoComplete.setAdapter(unitAdapter)
@@ -155,10 +156,10 @@ class FormFragment : Fragment() {
 
             Constants.UNIT_LITERS, Constants.UNIT_ML ->
                 getString(R.string.item_price_per_liter) to getString(R.string.price_helper_liter)
-            
+
             Constants.UNIT_LBS, Constants.UNIT_OZ ->
                 getString(R.string.item_price_per_lb) to getString(R.string.price_helper_lb)
-            
+
             Constants.UNIT_GALLONS ->
                 getString(R.string.item_price_per_gallon) to getString(R.string.price_helper_gallon)
 
@@ -191,8 +192,15 @@ class FormFragment : Fragment() {
         val unit = binding.itemUnitAutoComplete.text.toString()
         val unitConstant = getUnitConstant(unit)
         val total = PriceHelper.calculateTotalValue(quantity, price, unitConstant)
-        val numberFormat = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("pt", "BR"))
-        binding.subtotalTextView.text = getString(R.string.total_spent, numberFormat.format(total))
+
+        binding.subtotalTextView.text = getString(
+            R.string.total_spent,
+            PriceHelper.formatPrice(
+                total.toString(), CurrencyManager.getCurrency(
+                    requireContext()
+                )
+            )
+        )
     }
 
     private fun save() {

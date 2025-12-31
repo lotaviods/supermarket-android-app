@@ -5,13 +5,13 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.data.database.AppDatabase
-import br.com.lotaviods.listadecompras.helper.LanguageHelper
+import br.com.lotaviods.listadecompras.manager.LanguageManager
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
 import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.GlobalContext
 import org.koin.dsl.module
 
 class Application : android.app.Application() {
@@ -43,12 +43,14 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        LanguageHelper.applyLanguage(this)
+        LanguageManager.applyLanguage(this)
         
-        startKoin {
-            androidLogger()
-            androidContext(this@Application)
-            modules(appModule)
+        if (GlobalContext.getOrNull() == null) {
+            GlobalContext.startKoin {
+                androidLogger()
+                androidContext(this@Application)
+                modules(appModule)
+            }
         }
     }
 }

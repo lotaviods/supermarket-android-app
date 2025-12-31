@@ -23,9 +23,10 @@ import br.com.lotaviods.listadecompras.BuildConfig
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
 import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
-import br.com.lotaviods.listadecompras.helper.LanguageHelper
-import br.com.lotaviods.listadecompras.helper.MeasurementHelper
-import br.com.lotaviods.listadecompras.helper.ThemeHelper
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
+import br.com.lotaviods.listadecompras.manager.LanguageManager
+import br.com.lotaviods.listadecompras.repository.MeasurementPreferences
+import br.com.lotaviods.listadecompras.manager.ThemeManager
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.ui.cart.CartActivity
@@ -67,8 +68,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LanguageHelper.applyLanguage(this)
-        ThemeHelper.applyTheme(this)
+        LanguageManager.applyLanguage(this)
+        ThemeManager.applyTheme(this)
         
         enableEdgeToEdge()
 
@@ -117,6 +118,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_measurement -> {
                 showMeasurementDialog()
+                true
+            }
+            R.id.action_currency -> {
+                showCurrencyDialog()
                 true
             }
             R.id.action_support -> {
@@ -208,16 +213,16 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.portuguese),
             getString(R.string.english)
         )
-        val languageCodes = arrayOf("pt", "en")
-        val currentLanguage = LanguageHelper.getLanguage(this)
-        val selectedIndex = languageCodes.indexOf(currentLanguage)
+        val languageTypes = LanguageManager.LanguageType.entries.toTypedArray()
+        val currentLanguage = LanguageManager.getLanguage(this)
+        val selectedIndex = languageTypes.indexOf(currentLanguage)
         
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.select_language))
             .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
-                val selectedLanguage = languageCodes[which]
+                val selectedLanguage = languageTypes[which]
                 if (selectedLanguage != currentLanguage) {
-                    LanguageHelper.setLanguage(this, selectedLanguage)
+                    LanguageManager.setLanguage(this, selectedLanguage)
                     recreate() // Restart activity to apply language change
                 }
                 dialog.dismiss()
@@ -232,8 +237,8 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.theme_light),
             getString(R.string.theme_dark)
         )
-        val themeModes = ThemeHelper.ThemeMode.entries.toTypedArray()
-        val currentTheme = ThemeHelper.getTheme(this)
+        val themeModes = ThemeManager.ThemeMode.entries.toTypedArray()
+        val currentTheme = ThemeManager.getTheme(this)
         val selectedIndex = themeModes.indexOf(currentTheme)
 
         AlertDialog.Builder(this)
@@ -241,7 +246,7 @@ class MainActivity : AppCompatActivity() {
             .setSingleChoiceItems(themes, selectedIndex) { dialog, which ->
                 val selectedTheme = themeModes[which]
                 if (selectedTheme != currentTheme) {
-                    ThemeHelper.setTheme(this, selectedTheme)
+                    ThemeManager.setTheme(this, selectedTheme)
                 }
                 dialog.dismiss()
             }
@@ -254,7 +259,7 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.system_metric),
             getString(R.string.system_imperial)
         )
-        val useImperial = MeasurementHelper.useImperialSystem(this)
+        val useImperial = MeasurementPreferences.useImperialSystem(this)
         val selectedIndex = if (useImperial) 1 else 0
 
         AlertDialog.Builder(this)
@@ -262,7 +267,31 @@ class MainActivity : AppCompatActivity() {
             .setSingleChoiceItems(systems, selectedIndex) { dialog, which ->
                 val selectedImperial = which == 1
                 if (selectedImperial != useImperial) {
-                    MeasurementHelper.setUseImperialSystem(this, selectedImperial)
+                    MeasurementPreferences.setUseImperialSystem(this, selectedImperial)
+                    recreate()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+    
+    private fun showCurrencyDialog() {
+        val currencies = arrayOf(
+            getString(R.string.currency_brl),
+            getString(R.string.currency_usd),
+            getString(R.string.currency_eur)
+        )
+        val currencyTypes = CurrencyManager.CurrencyType.entries.toTypedArray()
+        val currentCurrency = CurrencyManager.getCurrency(this)
+        val selectedIndex = currencyTypes.indexOf(currentCurrency)
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_currency))
+            .setSingleChoiceItems(currencies, selectedIndex) { dialog, which ->
+                val selectedCurrency = currencyTypes[which]
+                if (selectedCurrency != currentCurrency) {
+                    CurrencyManager.setCurrency(this, selectedCurrency)
                     recreate()
                 }
                 dialog.dismiss()
