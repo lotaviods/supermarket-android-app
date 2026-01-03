@@ -2,12 +2,15 @@ package br.com.lotaviods.listadecompras.manager
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Locale
 
-object LanguageManager {
-    private const val PREFS_NAME = "language_prefs"
-    private const val KEY_LANGUAGE = "selected_language_id"
+class LanguageManager(private val context: Context) {
+    private val KEY_LANGUAGE = intPreferencesKey("selected_language_id")
 
     enum class LanguageType(val id: Byte) {
         PT(0x01),
@@ -26,38 +29,33 @@ object LanguageManager {
         }
     }
 
-    fun setLanguage(context: Context, language: LanguageType) {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit {
-                putInt(KEY_LANGUAGE, language.id.toInt())
-            }
+    suspend fun setLanguage(language: LanguageType) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_LANGUAGE] = language.id.toInt()
+        }
 
-        applyLanguage(context, language)
+        applyLanguage(language)
     }
 
-    fun getLanguage(context: Context): LanguageType {
-        return runCatching {
-            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getInt(KEY_LANGUAGE, LanguageType.PT.id.toInt())
-                .toByte()
-
+    fun getLanguage(): Flow<LanguageType> {
+        return context.dataStore.data.map { preferences ->
+            val id = preferences[KEY_LANGUAGE]?.toByte() ?: LanguageType.PT.id
             LanguageType.fromId(id)
-        }.getOrElse {
-            LanguageType.PT
         }
     }
 
-    private fun applyLanguage(context: Context, language: LanguageType) {
+    fun applyLanguage(language: LanguageType, context: Context? = null) {
         val locale = language.toLocale()
         Locale.setDefault(locale)
 
-        val config = Configuration(context.resources.configuration)
-        config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-    }
+        val appConfig = Configuration(this.context.resources.configuration)
+        appConfig.setLocale(locale)
+        this.context.resources.updateConfiguration(appConfig, this.context.resources.displayMetrics)
 
-    fun applyLanguage(context: Context) {
-        val language = getLanguage(context)
-        applyLanguage(context, language)
+        if (context != null && context !== this.context) {
+            val config = Configuration(context.resources.configuration)
+            config.setLocale(locale)
+            context.resources.updateConfiguration(config, context.resources.displayMetrics)
+        }
     }
 }

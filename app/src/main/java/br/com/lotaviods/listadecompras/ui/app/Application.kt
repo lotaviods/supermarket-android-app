@@ -1,18 +1,25 @@
 package br.com.lotaviods.listadecompras.ui.app
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import br.com.lotaviods.listadecompras.R
 import br.com.lotaviods.listadecompras.data.database.AppDatabase
+import br.com.lotaviods.listadecompras.manager.CurrencyManager
 import br.com.lotaviods.listadecompras.manager.LanguageManager
+import br.com.lotaviods.listadecompras.manager.ThemeManager
 import br.com.lotaviods.listadecompras.repository.CartRepository
 import br.com.lotaviods.listadecompras.repository.ItemRepository
+import br.com.lotaviods.listadecompras.ui.cart.CartViewModel
+import br.com.lotaviods.listadecompras.ui.form.FormViewModel
+import br.com.lotaviods.listadecompras.ui.list.ListManagementViewModel
 import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext
 import org.koin.dsl.module
+import org.koin.core.module.dsl.viewModel
 
 class Application : android.app.Application() {
     private val database by lazy {
@@ -39,11 +46,31 @@ class Application : android.app.Application() {
         single {
             ShoppingWidgetRepository(applicationContext, database.itemDAO(), database.shoppingListDAO())
         }
+        single {
+            LanguageManager(androidContext())
+        }
+        single {
+            ThemeManager(androidContext())
+        }
+        single {
+            CurrencyManager(androidContext())
+        }
+        viewModel {
+            CartViewModel(this@Application, get(), get(), get())
+        }
+        viewModel {
+            ListManagementViewModel(get())
+        }
+        viewModel { (savedStateHandle: SavedStateHandle) ->
+            FormViewModel(
+                itemRepository = get(),
+                savedStateHandle = savedStateHandle
+            )
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
-        LanguageManager.applyLanguage(this)
         
         if (GlobalContext.getOrNull() == null) {
             GlobalContext.startKoin {

@@ -6,6 +6,8 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -16,6 +18,7 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -38,14 +41,18 @@ import br.com.lotaviods.listadecompras.manager.LanguageManager
 import br.com.lotaviods.listadecompras.helper.PriceHelper
 import br.com.lotaviods.listadecompras.model.item.Item
 import br.com.lotaviods.listadecompras.ui.MainActivity
-import br.com.lotaviods.listadecompras.ui.cart.CartActivity
 import br.com.lotaviods.listadecompras.widget.model.WidgetState
 import br.com.lotaviods.listadecompras.widget.repository.ShoppingWidgetRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
     private val repository: ShoppingWidgetRepository by inject()
+    private val languageManager: LanguageManager by inject()
+    private val currencyManager: CurrencyManager by inject()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -57,8 +64,14 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     private fun ShoppingCartContent(context: Context) {
-        LanguageManager.applyLanguage(context)
         val state by repository.loadModel().collectAsState(initial = WidgetState.Loading)
+        
+        // Apply language from DataStore
+        LaunchedEffect(Unit) {
+            languageManager.getLanguage().collect { language ->
+                languageManager.applyLanguage(language)
+            }
+        }
 
         Scaffold {
             when (state) {
@@ -70,7 +83,6 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                         modifier = GlanceModifier.fillMaxSize().padding(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Left side - List info and items count
                         Column(
                             modifier = GlanceModifier.defaultWeight().padding(end = 8.dp)
                                 .clickable(actionStartActivity<MainActivity>()),
@@ -116,8 +128,8 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                                 )
                             }
                             if (items.isNotEmpty()) {
+                                val currency by currencyManager.getCurrency().collectAsState(initial = CurrencyManager.CurrencyType.BRL)
                                 val totalValue = calculateTotal(items)
-                                val currency = CurrencyManager.getCurrency(context)
 
                                 PriceHelper.formatPrice(totalValue.toString(), currency)
                                     ?.let { fmt ->
@@ -139,7 +151,7 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_shopping_cart),
                                 modifier = GlanceModifier
-                                    .clickable(actionStartActivity<CartActivity>())
+                                    .clickable(actionStartActivity<MainActivity>())
                                     .padding(4.dp),
                                 colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                                 contentDescription = context.getString(R.string.widget_open_app)
@@ -188,7 +200,9 @@ class ShoppingAppWidget : GlanceAppWidget(), KoinComponent {
                             Image(
                                 provider = ImageProvider(R.drawable.ic_shopping_cart),
                                 modifier = GlanceModifier
-                                    .clickable(actionStartActivity<CartActivity>())
+                                    .clickable(actionStartActivity<MainActivity>(
+                                        actionParametersOf(ActionParameters.Key<String>("destination") to "cart")
+                                    ))
                                     .padding(4.dp),
                                 colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
                                 contentDescription = context.getString(R.string.widget_open_app)

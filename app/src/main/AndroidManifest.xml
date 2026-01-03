@@ -31,11 +31,6 @@
                 android:value="" />
         </activity>
 
-        <activity
-            android:name=".ui.cart.CartActivity"
-            android:exported="true" />
-
-
         <receiver
             android:name=".widget.ShoppingListWidgetReceiver"
             android:exported="true">

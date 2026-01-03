@@ -12,7 +12,8 @@
     <string name="delete_list_message">Are you sure you want to delete \'%1$s\'? All items in this list will be permanently removed.</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    
+    <string name="confirm">Confirm</string>
+
     <!-- Form -->
     <string name="item_name_label">Item name</string>
     <string name="item_name_hint">Enter product name</string>
@@ -34,6 +35,8 @@
     <string name="total_spent">Total spent: %1$s</string>
     <string name="save">Save</string>
     <string name="invalid_price">Invalid price</string>
+    <string name="edit_item">Edit item</string>
+    <string name="add_item">Add item</string>
 
     <!-- Units -->
     <string name="unit_piece">unit</string>

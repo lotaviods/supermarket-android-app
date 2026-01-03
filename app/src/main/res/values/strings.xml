@@ -12,7 +12,8 @@
     <string name="delete_list_message">Tem certeza que deseja deletar \'%1$s\'? Todos os itens desta lista serão removidos permanentemente.</string>
     <string name="delete">Deletar</string>
     <string name="cancel">Cancelar</string>
-    
+    <string name="confirm">Confirmar</string>
+
     <!-- Form -->
     <string name="item_name_label">Nome do item</string>
     <string name="item_name_hint">Digite o nome do produto</string>
@@ -34,6 +35,8 @@
     <string name="total_spent">Total gasto: %1$s</string>
     <string name="save">Salvar</string>
     <string name="invalid_price">Preço inválido</string>
+    <string name="edit_item">Editar item</string>
+    <string name="add_item">Adicionar item</string>
 
     <!-- Units -->
     <string name="unit_piece">unidade</string>
@@ -50,6 +53,7 @@
     <string name="list_name_hint">Nome lista</string>
     <string name="total_value">Valor total: %1$s</string>
     <string name="clear_cart">Limpar carrinho</string>
+    <string name="clear_cart_confirmation_message">Tem certeza que deseja limpar o carrinho? Todos os itens serão removidos.</string>
     <string name="empty_cart_title">Sem itens no carrinho</string>
     <string name="empty_cart_subtitle">Tente adicionar alguns itens</string>
     <string name="back">Voltar</string>

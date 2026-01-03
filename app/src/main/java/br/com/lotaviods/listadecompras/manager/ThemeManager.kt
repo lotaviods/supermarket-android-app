@@ -2,12 +2,17 @@ package br.com.lotaviods.listadecompras.manager
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-object ThemeManager {
-    private const val PREFS_NAME = "theme_prefs"
-    private const val KEY_THEME = "selected_theme"
-
+class ThemeManager(private val context: Context) {
     enum class ThemeMode(val id: Byte) {
         SYSTEM(0x01),
         LIGHT(0x02),
@@ -27,24 +32,18 @@ object ThemeManager {
         }
     }
 
-    fun setTheme(context: Context, themeMode: ThemeMode) {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit {
-                putInt(KEY_THEME, themeMode.id.toInt())
-            }
+    suspend fun setTheme(themeMode: ThemeMode) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_THEME] = themeMode.id.toInt()
+        }
 
         applyTheme(themeMode)
     }
 
-    fun getTheme(context: Context): ThemeMode {
-        return runCatching {
-            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getInt(KEY_THEME, ThemeMode.SYSTEM.id.toInt())
-                .toByte()
-
+    fun getTheme(): Flow<ThemeMode> {
+        return context.dataStore.data.map { preferences ->
+            val id = preferences[KEY_THEME]?.toByte() ?: ThemeMode.SYSTEM.id
             ThemeMode.fromId(id)
-        }.getOrElse {
-            ThemeMode.SYSTEM
         }
     }
 
@@ -52,8 +51,14 @@ object ThemeManager {
         AppCompatDelegate.setDefaultNightMode(themeMode.toAppCompatDelegateMode())
     }
 
-    fun applyTheme(context: Context) {
-        val themeMode = getTheme(context)
-        applyTheme(themeMode)
+    fun applyTheme() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val themeMode = getTheme().first()
+            applyTheme(themeMode)
+        }
+    }
+
+    companion object {
+        private val KEY_THEME = intPreferencesKey("selected_theme")
     }
 }

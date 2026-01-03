@@ -2,5 +2,7 @@
     <style name="Theme.ShoppingCart" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="android:colorBackground">@color/md_theme_light_background</item>
         <item name="android:statusBarColor">?attr/background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

@@ -44,7 +44,7 @@ object PriceHelper {
             Constants.UNIT_LBS -> context.getString(R.string.unit_lbs)
             Constants.UNIT_OZ -> context.getString(R.string.unit_oz)
             Constants.UNIT_GALLONS -> context.getString(R.string.unit_gallons)
-            Constants.UNIT_NONE -> ""
+            Constants.UNIT_NONE -> context.getString(R.string.unit_none)
             else -> context.getString(R.string.unit_piece)
         }
     }

@@ -1,12 +1,14 @@
 package br.com.lotaviods.listadecompras.manager
 
 import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Currency
 
-object CurrencyManager {
-    private const val PREFS_NAME = "currency_prefs"
-    private const val KEY_CURRENCY = "selected_currency"
+class CurrencyManager(private val context: Context) {
+    private val KEY_CURRENCY = intPreferencesKey("selected_currency")
 
     enum class CurrencyType(val id: Byte) {
         BRL(0x01),
@@ -28,19 +30,16 @@ object CurrencyManager {
     }
 
 
-    fun setCurrency(context: Context, currency: CurrencyType) {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit {
-                putInt(KEY_CURRENCY, currency.id.toInt())
-            }
+    suspend fun setCurrency(currency: CurrencyType) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_CURRENCY] = currency.id.toInt()
+        }
     }
 
-    fun getCurrency(context: Context): CurrencyType {
-        return runCatching {
-            val id = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getInt(KEY_CURRENCY, CurrencyType.BRL.id.toInt())
-                .toByte()
-            CurrencyType.fromId(id)
-        }.getOrElse { CurrencyType.BRL }
+    fun getCurrency(): Flow<CurrencyType> {
+        return context.dataStore.data.map { preferences ->
+            val id = preferences[KEY_CURRENCY] ?: CurrencyType.BRL.id.toInt()
+            CurrencyType.fromId(id.toByte())
+        }
     }
 }

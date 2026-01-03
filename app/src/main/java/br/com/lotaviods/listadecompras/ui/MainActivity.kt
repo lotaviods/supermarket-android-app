@@ -1,307 +1,125 @@
 package br.com.lotaviods.listadecompras.ui
 
-import android.app.AlertDialog
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.Menu
-import android.view.MenuItem
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.lotaviods.listadecompras.BuildConfig
-import br.com.lotaviods.listadecompras.R
-import br.com.lotaviods.listadecompras.databinding.ActivityMainBinding
-import br.com.lotaviods.listadecompras.databinding.DialogListManagementBinding
-import br.com.lotaviods.listadecompras.manager.CurrencyManager
-import br.com.lotaviods.listadecompras.manager.LanguageManager
-import br.com.lotaviods.listadecompras.repository.MeasurementPreferences
-import br.com.lotaviods.listadecompras.manager.ThemeManager
-import br.com.lotaviods.listadecompras.model.item.Item
-import br.com.lotaviods.listadecompras.repository.CartRepository
-import br.com.lotaviods.listadecompras.ui.cart.CartActivity
-import br.com.lotaviods.listadecompras.ui.list.ShoppingListAdapter
-import br.com.lotaviods.listadecompras.ui.main.MainFragmentDirections
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
+import br.com.lotaviods.listadecompras.BuildConfig
+import br.com.lotaviods.listadecompras.broadcast.PinWidgetReceiver
+import br.com.lotaviods.listadecompras.manager.LanguageManager
+import br.com.lotaviods.listadecompras.manager.ThemeManager
+import br.com.lotaviods.listadecompras.ui.dialog.DialogHost
+import br.com.lotaviods.listadecompras.ui.dialog.rememberDialogState
+import br.com.lotaviods.listadecompras.ui.list.ListManagementViewModel
+import br.com.lotaviods.listadecompras.ui.main.MainMenuAction
+import br.com.lotaviods.listadecompras.ui.navigation.NavigationGraph
+import br.com.lotaviods.listadecompras.ui.theme.ShoppingListTheme
+import br.com.lotaviods.listadecompras.widget.ShoppingListWidgetReceiver
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var navController: NavController
-    private val cartRepo by inject<CartRepository>()
 
-    private val cartIntentLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val listManagementViewModel by viewModel<ListManagementViewModel>()
+    private val themeManager by inject<ThemeManager>()
+    private val languageManager by inject<LanguageManager>()
+    
+    private var currentLanguage by mutableStateOf(LanguageManager.LanguageType.PT)
 
-            if (result.resultCode == RESULT_OK) {
-                try {
-                    navController.navigate(R.id.MainFragment)
-
-                    val item: Item? = result.data?.getParcelableExtra("item")
-                    item?.category?.let {
-                        navController.navigate(
-                            MainFragmentDirections.actionMainFragmentToFormFragmentWithItem(
-                                it, item
-                            )
-                        )
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
+    private val appWidgetManager: AppWidgetManager by lazy {
+        getSystemService(AppWidgetManager::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LanguageManager.applyLanguage(this)
-        ThemeManager.applyTheme(this)
-        
-        enableEdgeToEdge()
-
-        val statusBarColor = TypedValue()
-        theme.resolveAttribute(android.R.attr.colorPrimary, statusBarColor, true)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updatePadding(top = systemBars.top, bottom = systemBars.bottom)
-            insets
-        }
-
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-
-        navController = navHostFragment.navController
-
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        setUpClickShoppingCart()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_manage_lists -> {
-                showListManagementDialog()
-                true
-            }
-            R.id.action_language -> {
-                showLanguageDialog()
-                true
-            }
-            R.id.action_theme -> {
-                showThemeDialog()
-                true
-            }
-            R.id.action_measurement -> {
-                showMeasurementDialog()
-                true
-            }
-            R.id.action_currency -> {
-                showCurrencyDialog()
-                true
-            }
-            R.id.action_support -> {
-                openSupportLink()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
-
-    private fun setUpClickShoppingCart() {
-        binding.fabShoppingCart.setOnClickListener {
-            val intent = Intent(this, CartActivity::class.java)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Main) {
-                    intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-
-                    cartIntentLauncher.launch(intent)
-                }
-            }
-        }
-    }
-
-    private fun showListManagementDialog() {
-        val dialogBinding = DialogListManagementBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogBinding.root)
-            .create()
-
-        val adapter = ShoppingListAdapter(
-            onListClick = { list ->
-                cartRepo.setCurrentListId(list.id)
-                dialog.dismiss()
-                recreate() // Refresh to show new list
-            },
-            onDeleteClick = { list ->
-                AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.delete_list_title))
-                    .setMessage(getString(R.string.delete_list_message, list.name))
-                    .setPositiveButton(getString(R.string.delete)) { _, _ ->
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            cartRepo.deleteList(list)
-                            if (cartRepo.getCurrentListId() == list.id) {
-                                cartRepo.setCurrentListId(1) // Switch to main list
-                            }
-                        }
-                    }
-                    .setNegativeButton(getString(R.string.cancel), null)
-                    .show()
-            }
-        )
-
-        dialogBinding.recyclerViewLists.layoutManager = LinearLayoutManager(this)
-        dialogBinding.recyclerViewLists.adapter = adapter
 
         lifecycleScope.launch {
-            cartRepo.getAllLists().collect { lists ->
-                adapter.updateLists(lists, cartRepo.getCurrentListId())
+            languageManager.getLanguage().collect { language ->
+                currentLanguage = language
+                languageManager.applyLanguage(language, this@MainActivity)
             }
         }
-
-        dialogBinding.buttonCreateList.setOnClickListener {
-            val name = dialogBinding.editTextNewList.text.toString().trim()
-            if (name.isNotEmpty()) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    cartRepo.createList(name)
-                    withContext(Dispatchers.Main) {
-                        dialogBinding.editTextNewList.text?.clear()
-                    }
-                }
-            }
-        }
-
-        dialogBinding.buttonClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-    
-    private fun showLanguageDialog() {
-        val languages = arrayOf(
-            getString(R.string.portuguese),
-            getString(R.string.english)
-        )
-        val languageTypes = LanguageManager.LanguageType.entries.toTypedArray()
-        val currentLanguage = LanguageManager.getLanguage(this)
-        val selectedIndex = languageTypes.indexOf(currentLanguage)
         
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.select_language))
-            .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
-                val selectedLanguage = languageTypes[which]
-                if (selectedLanguage != currentLanguage) {
-                    LanguageManager.setLanguage(this, selectedLanguage)
-                    recreate() // Restart activity to apply language change
+        themeManager.applyTheme()
+
+        enableEdgeToEdge()
+
+        setContent {
+            val currentTheme by themeManager.getTheme().collectAsState(initial = ThemeManager.ThemeMode.SYSTEM)
+
+            key(currentLanguage) {
+                ShoppingListTheme {
+                    val navController = rememberNavController()
+                    val dialogState = rememberDialogState()
+
+                    NavigationGraph(
+                        navController = navController,
+                        onAddWidgetClick = { requestPinAppWidget() },
+                        showAddWidgetButton = checkWidgetSupport(),
+                        onMenuAction = { action ->
+                            when (action) {
+                                MainMenuAction.MANAGE_LISTS -> dialogState.showManageLists()
+                                MainMenuAction.LANGUAGE -> dialogState.showManageLang()
+                                MainMenuAction.THEME -> dialogState.showManageTheme()
+                                MainMenuAction.MEASUREMENT -> dialogState.showManageMeasurement()
+                                MainMenuAction.CURRENCY -> dialogState.showManageCurrency()
+                                MainMenuAction.SUPPORT -> openSupportLink()
+                            }
+                        }
+                    )
+
+                    DialogHost(
+                        context = this@MainActivity,
+                        state = dialogState,
+                        listViewModel = listManagementViewModel,
+                        currentTheme = currentTheme,
+                        currentLanguage = currentLanguage,
+                        onDismiss = { dialogState.close() }
+                    )
                 }
-                dialog.dismiss()
             }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+        }
     }
 
-    private fun showThemeDialog() {
-        val themes = arrayOf(
-            getString(R.string.theme_system),
-            getString(R.string.theme_light),
-            getString(R.string.theme_dark)
+    private fun checkWidgetSupport(): Boolean {
+        val provider = ComponentName(this, ShoppingListWidgetReceiver::class.java)
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                appWidgetManager.isRequestPinAppWidgetSupported &&
+                appWidgetManager.getAppWidgetIds(provider).isEmpty()
+    }
+
+    private fun requestPinAppWidget() {
+        val provider = ComponentName(this, ShoppingListWidgetReceiver::class.java)
+
+        val callback = PendingIntent.getBroadcast(
+            this,
+            0,
+            Intent(this, PinWidgetReceiver::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val themeModes = ThemeManager.ThemeMode.entries.toTypedArray()
-        val currentTheme = ThemeManager.getTheme(this)
-        val selectedIndex = themeModes.indexOf(currentTheme)
 
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.select_theme))
-            .setSingleChoiceItems(themes, selectedIndex) { dialog, which ->
-                val selectedTheme = themeModes[which]
-                if (selectedTheme != currentTheme) {
-                    ThemeManager.setTheme(this, selectedTheme)
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            appWidgetManager.isRequestPinAppWidgetSupported
+        ) {
+            appWidgetManager.requestPinAppWidget(provider, null, callback)
+        }
     }
 
-    private fun showMeasurementDialog() {
-        val systems = arrayOf(
-            getString(R.string.system_metric),
-            getString(R.string.system_imperial)
-        )
-        val useImperial = MeasurementPreferences.useImperialSystem(this)
-        val selectedIndex = if (useImperial) 1 else 0
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.select_measurement_system))
-            .setSingleChoiceItems(systems, selectedIndex) { dialog, which ->
-                val selectedImperial = which == 1
-                if (selectedImperial != useImperial) {
-                    MeasurementPreferences.setUseImperialSystem(this, selectedImperial)
-                    recreate()
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-    
-    private fun showCurrencyDialog() {
-        val currencies = arrayOf(
-            getString(R.string.currency_brl),
-            getString(R.string.currency_usd),
-            getString(R.string.currency_eur)
-        )
-        val currencyTypes = CurrencyManager.CurrencyType.entries.toTypedArray()
-        val currentCurrency = CurrencyManager.getCurrency(this)
-        val selectedIndex = currencyTypes.indexOf(currentCurrency)
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.select_currency))
-            .setSingleChoiceItems(currencies, selectedIndex) { dialog, which ->
-                val selectedCurrency = currencyTypes[which]
-                if (selectedCurrency != currentCurrency) {
-                    CurrencyManager.setCurrency(this, selectedCurrency)
-                    recreate()
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
-    
     private fun openSupportLink() {
-        val intent = Intent(Intent.ACTION_VIEW, BuildConfig.SUPPORT_URL.toUri())
-        startActivity(intent)
+        startActivity(Intent(Intent.ACTION_VIEW, BuildConfig.SUPPORT_URL.toUri()))
     }
 }
